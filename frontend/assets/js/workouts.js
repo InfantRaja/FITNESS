@@ -117,11 +117,125 @@ async function deleteWorkoutItem(id) {
   }
 }
 
+const WORKOUT_PRESETS = {
+  'Push Day (Chest, Shoulders & Triceps)': {
+    category: 'Strength',
+    duration: 50,
+    calories: 350,
+    exercises: [
+      { name: 'Barbell Bench Press', sets: [{ reps: 10, weightKg: 60 }, { reps: 8, weightKg: 65 }, { reps: 6, weightKg: 70 }] },
+      { name: 'Overhead Dumbbell Press', sets: [{ reps: 12, weightKg: 18 }, { reps: 10, weightKg: 20 }] },
+      { name: 'Triceps Cable Pushdown', sets: [{ reps: 15, weightKg: 25 }, { reps: 12, weightKg: 30 }] }
+    ]
+  },
+  'Pull Day (Back & Biceps)': {
+    category: 'Strength',
+    duration: 50,
+    calories: 340,
+    exercises: [
+      { name: 'Lat Pulldown / Pull-ups', sets: [{ reps: 10, weightKg: 55 }, { reps: 8, weightKg: 60 }] },
+      { name: 'Barbell Bent-Over Row', sets: [{ reps: 10, weightKg: 50 }, { reps: 8, weightKg: 55 }] },
+      { name: 'Dumbbell Bicep Curls', sets: [{ reps: 12, weightKg: 14 }, { reps: 10, weightKg: 16 }] }
+    ]
+  },
+  'Leg Day (Quads, Hamstrings & Calves)': {
+    category: 'Strength',
+    duration: 60,
+    calories: 420,
+    exercises: [
+      { name: 'Barbell Back Squat', sets: [{ reps: 10, weightKg: 70 }, { reps: 8, weightKg: 80 }, { reps: 6, weightKg: 85 }] },
+      { name: 'Romanian Deadlift (RDL)', sets: [{ reps: 10, weightKg: 60 }, { reps: 8, weightKg: 70 }] },
+      { name: 'Leg Press / Lunges', sets: [{ reps: 12, weightKg: 100 }, { reps: 10, weightKg: 120 }] }
+    ]
+  },
+  'Full Body Conditioning': {
+    category: 'Strength',
+    duration: 45,
+    calories: 360,
+    exercises: [
+      { name: 'Goblet Squats', sets: [{ reps: 12, weightKg: 20 }, { reps: 12, weightKg: 24 }] },
+      { name: 'Push-ups', sets: [{ reps: 15, weightKg: 0 }, { reps: 15, weightKg: 0 }] },
+      { name: 'Dumbbell Rows', sets: [{ reps: 12, weightKg: 18 }, { reps: 12, weightKg: 20 }] }
+    ]
+  },
+  'Upper Body Power': {
+    category: 'Strength',
+    duration: 45,
+    calories: 320,
+    exercises: [
+      { name: 'Incline Dumbbell Press', sets: [{ reps: 10, weightKg: 22 }, { reps: 8, weightKg: 26 }] },
+      { name: 'Seated Cable Row', sets: [{ reps: 12, weightKg: 50 }, { reps: 10, weightKg: 55 }] }
+    ]
+  },
+  'Lower Body Strength': {
+    category: 'Strength',
+    duration: 50,
+    calories: 380,
+    exercises: [
+      { name: 'Bulgarian Split Squats', sets: [{ reps: 10, weightKg: 16 }, { reps: 10, weightKg: 18 }] },
+      { name: 'Standing Calf Raises', sets: [{ reps: 15, weightKg: 40 }, { reps: 15, weightKg: 45 }] }
+    ]
+  },
+  'Cardio & Core Blast': {
+    category: 'Cardio',
+    duration: 35,
+    calories: 300,
+    exercises: [
+      { name: 'Treadmill Run / Jog', sets: [{ reps: 20, weightKg: 0 }] },
+      { name: 'Hanging Knee Raises / Planks', sets: [{ reps: 15, weightKg: 0 }, { reps: 15, weightKg: 0 }] }
+    ]
+  },
+  'HIIT Fat Burner': {
+    category: 'HIIT',
+    duration: 30,
+    calories: 320,
+    exercises: [
+      { name: 'Burpees & Mountain Climbers', sets: [{ reps: 15, weightKg: 0 }, { reps: 15, weightKg: 0 }] },
+      { name: 'Kettlebell Swings', sets: [{ reps: 20, weightKg: 16 }, { reps: 20, weightKg: 20 }] }
+    ]
+  },
+  'Morning Yoga & Mobility': {
+    category: 'Flexibility',
+    duration: 30,
+    calories: 120,
+    exercises: [
+      { name: 'Sun Salutations & Hamstring Flow', sets: [{ reps: 1, weightKg: 0 }] },
+      { name: 'Hip Openers & Spinal Twist', sets: [{ reps: 1, weightKg: 0 }] }
+    ]
+  },
+  'Arms & Abs Special': {
+    category: 'Strength',
+    duration: 40,
+    calories: 250,
+    exercises: [
+      { name: 'EZ-Bar Bicep Curls', sets: [{ reps: 12, weightKg: 25 }, { reps: 10, weightKg: 30 }] },
+      { name: 'Overhead Tricep Extension', sets: [{ reps: 12, weightKg: 20 }, { reps: 10, weightKg: 24 }] },
+      { name: 'Cable Woodchoppers', sets: [{ reps: 15, weightKg: 15 }, { reps: 15, weightKg: 15 }] }
+    ]
+  }
+};
+
 // Setup dynamic exercise builder in modal
 function setupWorkoutModal() {
   const addExBtn = document.getElementById('addExerciseRowBtn');
   if (addExBtn) {
     addExBtn.addEventListener('click', () => addExerciseBlock());
+  }
+
+  // Preset Selector Listener
+  const templateSelect = document.getElementById('workoutTemplateSelect');
+  const customTitleWrap = document.getElementById('customTitleWrap');
+  if (templateSelect) {
+    templateSelect.addEventListener('change', () => {
+      const selected = templateSelect.value;
+      if (selected === '__custom__') {
+        if (customTitleWrap) customTitleWrap.style.display = 'block';
+        document.getElementById('workoutTitle').focus();
+      } else {
+        if (customTitleWrap) customTitleWrap.style.display = 'none';
+        applyWorkoutPreset(selected);
+      }
+    });
   }
 
   const form = document.getElementById('createWorkoutForm');
@@ -133,8 +247,30 @@ function setupWorkoutModal() {
   }
 }
 
-// Add an Exercise Block
-function addExerciseBlock() {
+// Automatically populate fields and exercises when a routine is selected
+function applyWorkoutPreset(presetKey) {
+  const preset = WORKOUT_PRESETS[presetKey];
+  if (!preset) return;
+
+  const categorySelect = document.getElementById('workoutCategory');
+  const durationInput = document.getElementById('workoutDuration');
+  const caloriesInput = document.getElementById('workoutCalories');
+  const container = document.getElementById('exercisesContainer');
+
+  if (categorySelect) categorySelect.value = preset.category;
+  if (durationInput) durationInput.value = preset.duration;
+  if (caloriesInput) caloriesInput.value = preset.calories;
+
+  if (container && preset.exercises) {
+    container.innerHTML = '';
+    preset.exercises.forEach((ex) => {
+      addExerciseBlock(ex.name, ex.sets);
+    });
+  }
+}
+
+// Add an Exercise Block (with optional default name and sets)
+function addExerciseBlock(defaultName = '', defaultSets = null) {
   const container = document.getElementById('exercisesContainer');
   if (!container) return;
 
@@ -144,9 +280,33 @@ function addExerciseBlock() {
   const block = document.createElement('div');
   block.className = 'exercise-card-builder';
   block.id = exId;
+
+  let setsRowsHtml = '';
+  if (defaultSets && defaultSets.length) {
+    defaultSets.forEach((s, idx) => {
+      setsRowsHtml += `
+        <div class="set-table-row">
+          <span class="set-badge">${idx + 1}</span>
+          <input type="number" class="form-input set-reps" value="${s.reps}" min="1" required>
+          <input type="number" class="form-input set-weight" value="${s.weightKg}" min="0" step="0.5" required>
+          <button type="button" onclick="this.parentElement.remove()" class="btn btn-danger btn-sm" style="padding:0.25rem 0.5rem;">✕</button>
+        </div>
+      `;
+    });
+  } else {
+    setsRowsHtml = `
+      <div class="set-table-row">
+        <span class="set-badge">1</span>
+        <input type="number" class="form-input set-reps" placeholder="10" min="1" required>
+        <input type="number" class="form-input set-weight" placeholder="60" min="0" step="0.5" required>
+        <div></div>
+      </div>
+    `;
+  }
+
   block.innerHTML = `
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.75rem;">
-      <input type="text" class="form-input exercise-name-input" placeholder="Exercise name (e.g. Barbell Squat)" required style="max-width:320px;">
+      <input type="text" class="form-input exercise-name-input" value="${defaultName}" placeholder="Exercise name (e.g. Barbell Squat)" required style="max-width:320px;">
       <button type="button" onclick="document.getElementById('${exId}').remove()" class="btn btn-danger btn-sm">Remove</button>
     </div>
 
@@ -157,12 +317,7 @@ function addExerciseBlock() {
       <div></div>
     </div>
     <div class="sets-rows-container">
-      <div class="set-table-row">
-        <span class="set-badge">1</span>
-        <input type="number" class="form-input set-reps" placeholder="10" min="1" required>
-        <input type="number" class="form-input set-weight" placeholder="60" min="0" step="0.5" required>
-        <div></div>
-      </div>
+      ${setsRowsHtml}
     </div>
     <button type="button" onclick="addSetRow('${exId}')" class="btn btn-secondary btn-sm" style="margin-top:0.5rem;">+ Add Set</button>
   `;
@@ -191,7 +346,20 @@ window.addSetRow = function (exId) {
 
 // Submit Workout Form
 async function submitWorkoutForm() {
-  const title = document.getElementById('workoutTitle').value.trim();
+  const templateSelect = document.getElementById('workoutTemplateSelect');
+  let title = '';
+
+  if (templateSelect && templateSelect.value && templateSelect.value !== '__custom__') {
+    title = templateSelect.value;
+  } else {
+    title = document.getElementById('workoutTitle').value.trim();
+  }
+
+  if (!title) {
+    showToast('Please select a workout routine or enter a title.', 'error');
+    return;
+  }
+
   const category = document.getElementById('workoutCategory').value;
   const durationMinutes = document.getElementById('workoutDuration').value;
   const caloriesBurned = document.getElementById('workoutCalories').value;

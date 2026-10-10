@@ -167,6 +167,29 @@ function handleSimulatedResponse(endpoint, options) {
     };
   }
 
+  // Simulated AI Chat
+  if (endpoint === '/ai/chat') {
+    return {
+      success: true,
+      reply: `### 🤖 FitTrack AI Coach (Demo Mode)
+
+Great question! For muscle recovery and steady energy:
+- **Pre-Workout:** Try 2 Idlis with light sambar or a banana 45 mins before training.
+- **Post-Workout:** Aim for 20–30g of protein (3 boiled eggs, 150g paneer, or chicken/fish with steamed rice).
+- **Hydration:** Sip water consistently to reach your 2,500ml daily target.
+
+*(Tip: Start the backend server on port 5000 with your GEMINI_API_KEY for real-time generative responses!)*`,
+      timestamp: new Date().toISOString(),
+    };
+  }
+
+  if (endpoint === '/ai/history') {
+    return {
+      success: true,
+      data: [],
+    };
+  }
+
   // Default fallback
   return { success: true, message: 'Simulated preview response', data: [] };
 }

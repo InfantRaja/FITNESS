@@ -36,6 +36,19 @@ async function runTests() {
   } catch (e) {
     console.error('404 Test Failed:', e.message);
   }
+
+  console.log('\n--- 4. Testing AI Chat Endpoint Authorization Barrier ---');
+  try {
+    const aiRes = await fetch(`${baseUrl}/ai/chat`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: 'Can I eat idli for weight loss?' }),
+    });
+    console.log('Status Code:', aiRes.status);
+    console.log(aiRes.status === 401 ? 'PASS (Correctly protected with 401 Unauthorized)' : 'FAIL');
+  } catch (e) {
+    console.error('AI Endpoint Test Failed:', e.message);
+  }
 }
 
 runTests();

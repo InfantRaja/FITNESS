@@ -55,6 +55,8 @@ app.use('/api/v1/water', require('./routes/waterRoutes'));
 app.use('/api/v1/goals', require('./routes/goalRoutes'));
 app.use('/api/v1/metrics', require('./routes/metricRoutes'));
 app.use('/api/v1/reports', require('./routes/reportRoutes'));
+app.use('/api/v1/ai', require('./routes/aiRoutes'));
+app.use('/api/ai', require('./routes/aiRoutes'));
 
 // 404 & Error Handling Middleware
 app.use(notFound);

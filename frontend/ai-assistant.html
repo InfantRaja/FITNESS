@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Fitness & Nutrition Assistant — FitTrack</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="assets/css/main.css">
+  <link rel="stylesheet" href="assets/css/components.css">
+  <link rel="stylesheet" href="assets/css/layout.css">
+  <link rel="stylesheet" href="assets/css/pages.css">
+</head>
+<body class="app-layout">
+
+  <div id="mobileOverlay" class="mobile-overlay"></div>
+
+  <!-- Sidebar Navigation -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <a href="dashboard.html" class="brand-logo">
+        <div class="brand-icon">F</div>
+        <span>Fit<span class="text-primary">Track</span></span>
+      </a>
+    </div>
+
+    <ul class="sidebar-nav">
+      <span class="nav-label">Core Modules</span>
+      <li class="nav-item"><a href="dashboard.html" class="nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Dashboard</a></li>
+      <li class="nav-item"><a href="workouts.html" class="nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 5v14M18 5v14M2 9h4M18 9h4M2 15h4M18 15h4"/></svg>Workouts</a></li>
+      <li class="nav-item"><a href="nutrition.html" class="nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8h1a4 4 0 0 1 0 8h-1M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/></svg>Nutrition</a></li>
+      <li class="nav-item"><a href="water.html" class="nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>Hydration</a></li>
+
+      <span class="nav-label" style="margin-top:1rem;">AI Intelligence</span>
+      <li class="nav-item">
+        <a href="ai-assistant.html" class="nav-link active">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+          AI Assistant <span class="badge badge-green" style="font-size:0.65rem; padding:0.15rem 0.4rem; margin-left:auto;">AI ✨</span>
+        </a>
+      </li>
+
+      <span class="nav-label" style="margin-top:1rem;">Insights & Goals</span>
+      <li class="nav-item"><a href="goals.html" class="nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m10 15 5-3-5-3v6z"/></svg>Fitness Goals</a></li>
+      <li class="nav-item"><a href="analytics.html" class="nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>Analytics</a></li>
+      <li class="nav-item"><a href="history.html" class="nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>History & Export</a></li>
+
+      <span class="nav-label" style="margin-top:1rem;">Account</span>
+      <li class="nav-item"><a href="profile.html" class="nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Profile & Settings</a></li>
+    </ul>
+
+    <div class="sidebar-footer">
+      <button onclick="logoutUser()" class="btn btn-secondary btn-sm" style="width:100%;">Log Out</button>
+    </div>
+  </aside>
+
+  <!-- Main Content Layout -->
+  <div class="main-wrapper">
+    <header class="top-header">
+      <div class="header-left">
+        <button id="mobileNavToggle" class="mobile-nav-toggle">☰</button>
+        <h1 class="page-title">AI Fitness & Nutrition Coach</h1>
+      </div>
+
+      <div class="header-right">
+        <button id="themeToggleBtn" class="theme-toggle-btn" title="Toggle Light/Dark Theme">
+          <span id="themeIcon">🌙</span>
+        </button>
+        <a href="profile.html" class="user-dropdown">
+          <div class="user-avatar" id="userAvatar">A</div>
+          <span class="user-name-label" id="userNameLabel">User</span>
+        </a>
+      </div>
+    </header>
+
+    <main class="content-body" style="padding-bottom: 1rem;">
+      <div class="chat-window">
+        <!-- Chat Header Bar -->
+        <div class="chat-header-bar">
+          <div style="display:flex; align-items:center; gap:0.75rem;">
+            <div style="width:10px; height:10px; border-radius:50%; background:var(--primary); box-shadow:0 0 8px var(--primary);"></div>
+            <div>
+              <div class="font-bold" style="font-size:0.95rem;">FitTrack AI Assistant</div>
+              <div class="text-dim" style="font-size:0.75rem;">Connected to your Profile, Daily Targets & Calorie Goals</div>
+            </div>
+          </div>
+
+          <button id="clearChatBtn" class="btn btn-secondary btn-sm" title="Clear chat history">
+            🗑️ Clear History
+          </button>
+        </div>
+
+        <!-- Chat Messages Viewport -->
+        <div id="chatMessages" class="chat-messages-scroll">
+          <div class="spinner"></div> Loading conversation...
+        </div>
+
+        <!-- Prompt Shortcut Chips Carousel -->
+        <div class="prompt-chips-wrapper">
+          <button type="button" class="prompt-chip" data-prompt="What should I eat after a workout?">
+            💪 Post-Workout Nutrition
+          </button>
+          <button type="button" class="prompt-chip" data-prompt="Can I eat Idli, Dosa, and Sambar for weight loss?">
+            🥘 Idli & Dosa for Fat Loss
+          </button>
+          <button type="button" class="prompt-chip" data-prompt="How can I increase my protein intake on a vegetarian diet?">
+            🌱 Vegetarian High-Protein Ideas
+          </button>
+          <button type="button" class="prompt-chip" data-prompt="Suggest a 3-day beginner workout split">
+            🏋️ 3-Day Beginner Routine
+          </button>
+          <button type="button" class="prompt-chip" data-prompt="What are budget-friendly Indian protein sources?">
+            💰 Budget Protein (Soya, Eggs, Sundal)
+          </button>
+          <button type="button" class="prompt-chip" data-prompt="Explain calorie deficit and protein in simple words">
+            📊 Explain Calories & Macros Simply
+          </button>
+        </div>
+
+        <!-- Input Bar -->
+        <form id="chatInputForm" class="chat-input-bar">
+          <input 
+            type="text" 
+            id="chatInput" 
+            class="chat-input-field" 
+            placeholder="Ask about meal plans, Tamil foods, workouts, protein goals..." 
+            autocomplete="off"
+            required
+          >
+          <button type="submit" class="btn btn-primary" style="padding:0.75rem 1.25rem;">
+            Send
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          </button>
+        </form>
+      </div>
+
+      <!-- Health & Safety Disclaimer -->
+      <div style="margin-top:0.75rem; text-align:center; font-size:0.75rem; color:var(--text-dim);">
+        ⚠️ <strong>Health Notice:</strong> FitTrack AI provides general fitness & nutritional education. It is not a substitute for professional medical diagnosis or clinical dietetics.
+      </div>
+    </main>
+  </div>
+
+  <script src="assets/js/api.js"></script>
+  <script src="assets/js/ui.js"></script>
+  <script src="assets/js/auth.js"></script>
+  <script src="assets/js/ai-assistant.js"></script>
+</body>
+</html>

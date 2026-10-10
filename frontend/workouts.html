@@ -33,6 +33,7 @@
       <li class="nav-item"><a href="workouts.html" class="nav-link active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 5v14M18 5v14M2 9h4M18 9h4M2 15h4M18 15h4"/></svg>Workouts</a></li>
       <li class="nav-item"><a href="nutrition.html" class="nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8h1a4 4 0 0 1 0 8h-1M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/></svg>Nutrition</a></li>
       <li class="nav-item"><a href="water.html" class="nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>Hydration</a></li>
+      <li class="nav-item"><a href="ai-assistant.html" class="nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>AI Assistant <span class="badge badge-green" style="font-size:0.65rem; padding:0.15rem 0.4rem; margin-left:auto;">AI ✨</span></a></li>
 
       <span class="nav-label" style="margin-top:1rem;">Insights & Goals</span>
       <li class="nav-item"><a href="goals.html" class="nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m10 15 5-3-5-3v6z"/></svg>Fitness Goals</a></li>
@@ -102,8 +103,26 @@
 
       <form id="createWorkoutForm">
         <div class="form-group">
-          <label class="form-label" for="workoutTitle">Workout Session Title</label>
-          <input type="text" id="workoutTitle" class="form-input" placeholder="e.g. Chest & Triceps Hypertrophy" required>
+          <label class="form-label" for="workoutTemplateSelect">Select Workout Routine</label>
+          <select id="workoutTemplateSelect" class="form-select">
+            <option value="" disabled selected>-- Choose a Workout Routine or Custom --</option>
+            <option value="Push Day (Chest, Shoulders & Triceps)">Push Day (Chest, Shoulders & Triceps)</option>
+            <option value="Pull Day (Back & Biceps)">Pull Day (Back & Biceps)</option>
+            <option value="Leg Day (Quads, Hamstrings & Calves)">Leg Day (Quads, Hamstrings & Calves)</option>
+            <option value="Full Body Conditioning">Full Body Conditioning</option>
+            <option value="Upper Body Power">Upper Body Power</option>
+            <option value="Lower Body Strength">Lower Body Strength</option>
+            <option value="Cardio & Core Blast">Cardio & Core Blast</option>
+            <option value="HIIT Fat Burner">HIIT Fat Burner</option>
+            <option value="Morning Yoga & Mobility">Morning Yoga & Mobility</option>
+            <option value="Arms & Abs Special">Arms & Abs Special</option>
+            <option value="__custom__">✏️ Custom Workout (Enter custom title)...</option>
+          </select>
+        </div>
+
+        <div class="form-group" id="customTitleWrap" style="display:none;">
+          <label class="form-label" for="workoutTitle">Custom Workout Title</label>
+          <input type="text" id="workoutTitle" class="form-input" placeholder="e.g. Kettlebell Circuit">
         </div>
 
         <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:1rem;">
