@@ -215,11 +215,102 @@ const WORKOUT_PRESETS = {
   }
 };
 
+// Comprehensive Exercise Library with Muscle Groups
+const EXERCISE_LIBRARY = [
+  // Chest
+  { name: 'Barbell Bench Press', category: 'Chest', defaultReps: 10, defaultWeight: 60 },
+  { name: 'Incline Dumbbell Press', category: 'Chest', defaultReps: 10, defaultWeight: 22 },
+  { name: 'Decline Bench Press', category: 'Chest', defaultReps: 10, defaultWeight: 50 },
+  { name: 'Dumbbell Chest Flyes', category: 'Chest', defaultReps: 12, defaultWeight: 14 },
+  { name: 'Cable Chest Flyes', category: 'Chest', defaultReps: 15, defaultWeight: 15 },
+  { name: 'Push-ups', category: 'Chest', defaultReps: 15, defaultWeight: 0 },
+  { name: 'Chest Dips', category: 'Chest', defaultReps: 10, defaultWeight: 0 },
+  { name: 'Dumbbell Pullover', category: 'Chest', defaultReps: 12, defaultWeight: 20 },
+
+  // Back
+  { name: 'Lat Pulldown', category: 'Back', defaultReps: 10, defaultWeight: 55 },
+  { name: 'Pull-ups / Chin-ups', category: 'Back', defaultReps: 8, defaultWeight: 0 },
+  { name: 'Barbell Bent-Over Row', category: 'Back', defaultReps: 10, defaultWeight: 50 },
+  { name: 'Seated Cable Row', category: 'Back', defaultReps: 12, defaultWeight: 50 },
+  { name: 'Conventional Deadlift', category: 'Back', defaultReps: 6, defaultWeight: 80 },
+  { name: 'Single-Arm Dumbbell Row', category: 'Back', defaultReps: 10, defaultWeight: 22 },
+  { name: 'T-Bar Row', category: 'Back', defaultReps: 10, defaultWeight: 45 },
+  { name: 'Face Pulls', category: 'Back', defaultReps: 15, defaultWeight: 20 },
+  { name: 'Hyperextensions', category: 'Back', defaultReps: 15, defaultWeight: 0 },
+
+  // Legs
+  { name: 'Barbell Back Squat', category: 'Legs', defaultReps: 10, defaultWeight: 70 },
+  { name: 'Front Squat', category: 'Legs', defaultReps: 8, defaultWeight: 50 },
+  { name: 'Leg Press', category: 'Legs', defaultReps: 12, defaultWeight: 120 },
+  { name: 'Romanian Deadlift (RDL)', category: 'Legs', defaultReps: 10, defaultWeight: 60 },
+  { name: 'Bulgarian Split Squats', category: 'Legs', defaultReps: 10, defaultWeight: 16 },
+  { name: 'Leg Extensions', category: 'Legs', defaultReps: 12, defaultWeight: 45 },
+  { name: 'Hamstring / Leg Curls', category: 'Legs', defaultReps: 12, defaultWeight: 40 },
+  { name: 'Standing Calf Raises', category: 'Legs', defaultReps: 15, defaultWeight: 40 },
+  { name: 'Walking Lunges', category: 'Legs', defaultReps: 12, defaultWeight: 16 },
+  { name: 'Goblet Squats', category: 'Legs', defaultReps: 12, defaultWeight: 24 },
+  { name: 'Hip Thrust / Glute Bridge', category: 'Legs', defaultReps: 10, defaultWeight: 70 },
+
+  // Shoulders
+  { name: 'Overhead Barbell Press', category: 'Shoulders', defaultReps: 8, defaultWeight: 40 },
+  { name: 'Dumbbell Shoulder Press', category: 'Shoulders', defaultReps: 10, defaultWeight: 18 },
+  { name: 'Dumbbell Lateral Raises', category: 'Shoulders', defaultReps: 15, defaultWeight: 10 },
+  { name: 'Dumbbell Front Raises', category: 'Shoulders', defaultReps: 12, defaultWeight: 10 },
+  { name: 'Rear Delt Reverse Flyes', category: 'Shoulders', defaultReps: 15, defaultWeight: 8 },
+  { name: 'Arnold Press', category: 'Shoulders', defaultReps: 10, defaultWeight: 16 },
+  { name: 'Dumbbell Shrugs', category: 'Shoulders', defaultReps: 15, defaultWeight: 30 },
+
+  // Arms (Biceps & Triceps)
+  { name: 'Barbell Bicep Curl', category: 'Arms', defaultReps: 10, defaultWeight: 25 },
+  { name: 'Dumbbell Hammer Curls', category: 'Arms', defaultReps: 12, defaultWeight: 14 },
+  { name: 'Incline Dumbbell Curl', category: 'Arms', defaultReps: 10, defaultWeight: 12 },
+  { name: 'Preacher Curl', category: 'Arms', defaultReps: 10, defaultWeight: 20 },
+  { name: 'Triceps Cable Pushdown', category: 'Arms', defaultReps: 12, defaultWeight: 25 },
+  { name: 'Skull Crushers', category: 'Arms', defaultReps: 10, defaultWeight: 25 },
+  { name: 'Overhead Tricep Extension', category: 'Arms', defaultReps: 12, defaultWeight: 20 },
+  { name: 'Triceps Bench Dips', category: 'Arms', defaultReps: 15, defaultWeight: 0 },
+
+  // Abs & Core
+  { name: 'Planks', category: 'Core', defaultReps: 45, defaultWeight: 0 },
+  { name: 'Hanging Knee Raises', category: 'Core', defaultReps: 15, defaultWeight: 0 },
+  { name: 'Cable Woodchoppers', category: 'Core', defaultReps: 15, defaultWeight: 15 },
+  { name: 'Ab Wheel Rollouts', category: 'Core', defaultReps: 12, defaultWeight: 0 },
+  { name: 'Russian Twists', category: 'Core', defaultReps: 20, defaultWeight: 10 },
+  { name: 'Bicycle Crunches', category: 'Core', defaultReps: 20, defaultWeight: 0 },
+
+  // Cardio & Functional
+  { name: 'Treadmill Incline Run / Jog', category: 'Cardio', defaultReps: 20, defaultWeight: 0 },
+  { name: 'Stationary Cycling', category: 'Cardio', defaultReps: 20, defaultWeight: 0 },
+  { name: 'Rowing Machine', category: 'Cardio', defaultReps: 15, defaultWeight: 0 },
+  { name: 'Jump Rope', category: 'Cardio', defaultReps: 50, defaultWeight: 0 },
+  { name: 'Burpees', category: 'Cardio', defaultReps: 15, defaultWeight: 0 },
+  { name: 'Kettlebell Swings', category: 'Cardio', defaultReps: 20, defaultWeight: 16 },
+  { name: 'Mountain Climbers', category: 'Cardio', defaultReps: 25, defaultWeight: 0 }
+];
+
+let activeExerciseCategory = 'All';
+let targetReplaceExId = null;
+
 // Setup dynamic exercise builder in modal
 function setupWorkoutModal() {
+  initExerciseDatalist();
+  setupExerciseSearchModal();
+
+  // Add Exercise Button -> Opens Search Modal
   const addExBtn = document.getElementById('addExerciseRowBtn');
   if (addExBtn) {
-    addExBtn.addEventListener('click', () => addExerciseBlock());
+    addExBtn.addEventListener('click', () => {
+      targetReplaceExId = null;
+      openExerciseSearchModal();
+    });
+  }
+
+  // Add Blank Custom Row Button
+  const addBlankBtn = document.getElementById('addBlankExerciseBtn');
+  if (addBlankBtn) {
+    addBlankBtn.addEventListener('click', () => {
+      addExerciseBlock('', null);
+    });
   }
 
   // Preset Selector Listener
@@ -246,6 +337,173 @@ function setupWorkoutModal() {
     });
   }
 }
+
+// Populate Global Datalist
+function initExerciseDatalist() {
+  const datalist = document.getElementById('exerciseDatalist');
+  if (!datalist) return;
+  datalist.innerHTML = EXERCISE_LIBRARY.map((ex) => `<option value="${ex.name}">`).join('');
+}
+
+// Setup Exercise Search Modal Listeners
+function setupExerciseSearchModal() {
+  const searchInput = document.getElementById('exerciseSearchInput');
+  const customBtn = document.getElementById('addSearchAsCustomBtn');
+  const categoryChips = document.querySelectorAll('.ex-category-chip');
+
+  if (searchInput) {
+    searchInput.addEventListener('input', () => {
+      renderExerciseSearchResults(searchInput.value.trim());
+    });
+  }
+
+  categoryChips.forEach((chip) => {
+    chip.addEventListener('click', () => {
+      categoryChips.forEach((c) => {
+        c.classList.remove('btn-primary');
+        c.classList.add('btn-secondary');
+      });
+      chip.classList.remove('btn-secondary');
+      chip.classList.add('btn-primary');
+
+      activeExerciseCategory = chip.getAttribute('data-category') || 'All';
+      const term = searchInput ? searchInput.value.trim() : '';
+      renderExerciseSearchResults(term);
+    });
+  });
+
+  if (customBtn) {
+    customBtn.addEventListener('click', () => {
+      const query = searchInput ? searchInput.value.trim() : '';
+      const customName = query || prompt('Enter custom exercise name:');
+      if (customName) {
+        if (targetReplaceExId) {
+          const exBlock = document.getElementById(targetReplaceExId);
+          if (exBlock) {
+            const input = exBlock.querySelector('.exercise-name-input');
+            if (input) input.value = customName;
+          }
+        } else {
+          addExerciseBlock(customName, null);
+        }
+        closeModal('exerciseSearchModal');
+      }
+    });
+  }
+}
+
+// Open Search Modal and initialize list
+function openExerciseSearchModal(targetExId = null) {
+  targetReplaceExId = targetExId;
+  const searchInput = document.getElementById('exerciseSearchInput');
+  if (searchInput) {
+    searchInput.value = '';
+    setTimeout(() => searchInput.focus(), 150);
+  }
+  activeExerciseCategory = 'All';
+  const categoryChips = document.querySelectorAll('.ex-category-chip');
+  categoryChips.forEach((c) => {
+    if (c.getAttribute('data-category') === 'All') {
+      c.classList.remove('btn-secondary');
+      c.classList.add('btn-primary');
+    } else {
+      c.classList.remove('btn-primary');
+      c.classList.add('btn-secondary');
+    }
+  });
+
+  renderExerciseSearchResults('');
+  openModal('exerciseSearchModal');
+}
+
+// Render filtered exercise results in search modal
+function renderExerciseSearchResults(searchTerm = '') {
+  const container = document.getElementById('exerciseSearchResultsList');
+  if (!container) return;
+
+  const query = searchTerm.toLowerCase();
+
+  const filtered = EXERCISE_LIBRARY.filter((ex) => {
+    const matchesCategory = activeExerciseCategory === 'All' || ex.category === activeExerciseCategory;
+    const matchesSearch = !query || ex.name.toLowerCase().includes(query) || ex.category.toLowerCase().includes(query);
+    return matchesCategory && matchesSearch;
+  });
+
+  if (!filtered.length) {
+    container.innerHTML = `
+      <div style="text-align:center; padding:2rem 1rem; color:var(--text-dim);">
+        <p style="font-size:1.1rem; margin-bottom:0.5rem;">No exact exercise found for "${searchTerm}"</p>
+        <button type="button" onclick="addCustomExerciseFromSearch('${searchTerm.replace(/'/g, "\\'")}')" class="btn btn-outline btn-sm">
+          + Add "${searchTerm}" as Custom Exercise
+        </button>
+      </div>
+    `;
+    return;
+  }
+
+  let html = '';
+  filtered.forEach((ex) => {
+    const categoryBadgeClass = ex.category === 'Chest' ? 'badge-green' :
+      ex.category === 'Back' ? 'badge-blue' :
+      ex.category === 'Legs' ? 'badge-orange' : 'badge';
+
+    html += `
+      <div class="card" style="padding:0.75rem 1rem; display:flex; justify-content:space-between; align-items:center; background:var(--bg-surface-elevated); cursor:pointer; transition:transform 0.15s ease;" onclick="selectExerciseFromSearch('${ex.name.replace(/'/g, "\\'")}', ${ex.defaultReps}, ${ex.defaultWeight})">
+        <div>
+          <div class="font-bold" style="font-size:0.95rem; color:var(--text-main);">${ex.name}</div>
+          <div style="display:flex; gap:0.5rem; align-items:center; margin-top:0.25rem;">
+            <span class="badge ${categoryBadgeClass}" style="font-size:0.7rem;">${ex.category}</span>
+            <span class="text-dim" style="font-size:0.75rem;">Default: ${ex.defaultReps} reps @ ${ex.defaultWeight}kg</span>
+          </div>
+        </div>
+        <button type="button" class="btn btn-primary btn-sm" style="padding:0.3rem 0.75rem;">
+          + Select
+        </button>
+      </div>
+    `;
+  });
+
+  container.innerHTML = html;
+}
+
+// User selects an exercise from search results
+window.selectExerciseFromSearch = function(name, reps, weight) {
+  if (targetReplaceExId) {
+    const exBlock = document.getElementById(targetReplaceExId);
+    if (exBlock) {
+      const input = exBlock.querySelector('.exercise-name-input');
+      if (input) input.value = name;
+    }
+  } else {
+    addExerciseBlock(name, [
+      { reps: reps || 10, weightKg: weight || 0 },
+      { reps: reps || 10, weightKg: weight || 0 }
+    ]);
+  }
+  closeModal('exerciseSearchModal');
+  showToast(`Added ${name} to workout!`, 'success');
+};
+
+// Add custom exercise from search term fallback
+window.addCustomExerciseFromSearch = function(name) {
+  if (!name) return;
+  if (targetReplaceExId) {
+    const exBlock = document.getElementById(targetReplaceExId);
+    if (exBlock) {
+      const input = exBlock.querySelector('.exercise-name-input');
+      if (input) input.value = name;
+    }
+  } else {
+    addExerciseBlock(name, null);
+  }
+  closeModal('exerciseSearchModal');
+  showToast(`Added ${name} to workout!`, 'success');
+};
+
+// Global helper to open search for an existing exercise row
+window.openExerciseSearchForTarget = function(exId) {
+  openExerciseSearchModal(exId);
+};
 
 // Automatically populate fields and exercises when a routine is selected
 function applyWorkoutPreset(presetKey) {
@@ -305,8 +563,11 @@ function addExerciseBlock(defaultName = '', defaultSets = null) {
   }
 
   block.innerHTML = `
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.75rem;">
-      <input type="text" class="form-input exercise-name-input" value="${defaultName}" placeholder="Exercise name (e.g. Barbell Squat)" required style="max-width:320px;">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.75rem; gap:0.5rem; flex-wrap:wrap;">
+      <div style="display:flex; align-items:center; gap:0.5rem; flex:1; min-width:260px; max-width:420px;">
+        <input type="text" list="exerciseDatalist" class="form-input exercise-name-input" value="${defaultName}" placeholder="Exercise name (e.g. Barbell Squat)" required>
+        <button type="button" onclick="openExerciseSearchForTarget('${exId}')" class="btn btn-secondary btn-sm" title="Search exercise from library" style="padding:0.4rem 0.65rem;">🔍 Pick</button>
+      </div>
       <button type="button" onclick="document.getElementById('${exId}').remove()" class="btn btn-danger btn-sm">Remove</button>
     </div>
 

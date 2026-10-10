@@ -152,7 +152,14 @@
         <div style="margin: 1.5rem 0;">
           <div class="flex-between" style="margin-bottom:0.75rem;">
             <h4 class="font-bold">Exercises & Sets</h4>
-            <button type="button" id="addExerciseRowBtn" class="btn btn-outline btn-sm">+ Add Exercise</button>
+            <div style="display:flex; gap:0.5rem;">
+              <button type="button" id="addExerciseRowBtn" class="btn btn-primary btn-sm">
+                🔍 Search & Add Exercise
+              </button>
+              <button type="button" id="addBlankExerciseBtn" class="btn btn-secondary btn-sm" title="Add blank custom exercise row">
+                + Custom Row
+              </button>
+            </div>
           </div>
           <div id="exercisesContainer"></div>
         </div>
@@ -169,6 +176,54 @@
       </form>
     </div>
   </div>
+
+  <!-- Search & Select Exercise Modal (Opens over workout modal) -->
+  <div id="exerciseSearchModal" class="modal-overlay" style="z-index: 1100;">
+    <div class="modal-container" style="max-width: 580px;">
+      <div class="modal-header">
+        <h3 class="modal-title">🔍 Exercise Search & Library</h3>
+        <button type="button" onclick="closeModal('exerciseSearchModal')" class="modal-close">&times;</button>
+      </div>
+
+      <!-- Search Input Bar -->
+      <div class="form-group" style="margin-bottom: 1rem;">
+        <input 
+          type="text" 
+          id="exerciseSearchInput" 
+          class="form-input" 
+          placeholder="Type to search e.g. Bench, Squat, Lat Pulldown, Bicep..."
+          autocomplete="off"
+        >
+      </div>
+
+      <!-- Category Filter Pills -->
+      <div style="display:flex; gap:0.4rem; overflow-x:auto; padding-bottom:0.75rem; margin-bottom:0.75rem; scrollbar-width:none;">
+        <button type="button" class="btn btn-primary btn-sm ex-category-chip" data-category="All">All</button>
+        <button type="button" class="btn btn-secondary btn-sm ex-category-chip" data-category="Chest">Chest</button>
+        <button type="button" class="btn btn-secondary btn-sm ex-category-chip" data-category="Back">Back</button>
+        <button type="button" class="btn btn-secondary btn-sm ex-category-chip" data-category="Legs">Legs</button>
+        <button type="button" class="btn btn-secondary btn-sm ex-category-chip" data-category="Shoulders">Shoulders</button>
+        <button type="button" class="btn btn-secondary btn-sm ex-category-chip" data-category="Arms">Arms</button>
+        <button type="button" class="btn btn-secondary btn-sm ex-category-chip" data-category="Core">Core</button>
+        <button type="button" class="btn btn-secondary btn-sm ex-category-chip" data-category="Cardio">Cardio</button>
+      </div>
+
+      <!-- Scrollable Exercises Results List -->
+      <div id="exerciseSearchResultsList" style="max-height: 320px; overflow-y: auto; display:flex; flex-direction:column; gap:0.5rem; padding-right:0.25rem;">
+        <!-- Filled dynamically by JavaScript -->
+      </div>
+
+      <div style="margin-top: 1rem; padding-top: 0.75rem; border-top: 1px solid var(--border-subtle); display:flex; justify-content:space-between; align-items:center;">
+        <span class="text-dim" style="font-size:0.8rem;">Can't find your exercise?</span>
+        <button type="button" id="addSearchAsCustomBtn" class="btn btn-outline btn-sm">
+          + Add Custom Exercise
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Global Exercise Datalist for autocomplete -->
+  <datalist id="exerciseDatalist"></datalist>
 
   <script src="assets/js/api.js"></script>
   <script src="assets/js/ui.js"></script>
