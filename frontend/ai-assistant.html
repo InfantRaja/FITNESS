@@ -87,14 +87,31 @@
             </div>
           </div>
 
-          <button id="clearChatBtn" class="btn btn-secondary btn-sm" title="Clear chat history">
-            🗑️ Clear History
-          </button>
+          <div style="display:flex; align-items:center; gap:0.5rem;">
+            <button type="button" id="voiceToggleBtn" class="btn btn-secondary btn-sm" title="Toggle automatic speech response">
+              <span id="voiceToggleIcon">🔊</span>
+              <span id="voiceToggleText">Voice: On</span>
+            </button>
+            <button id="clearChatBtn" class="btn btn-secondary btn-sm" title="Clear chat history">
+              🗑️ Clear
+            </button>
+          </div>
         </div>
 
         <!-- Chat Messages Viewport -->
         <div id="chatMessages" class="chat-messages-scroll">
           <div class="spinner"></div> Loading conversation...
+        </div>
+
+        <!-- Live Voice Listening Status Banner -->
+        <div id="voiceListeningBanner" class="voice-listening-banner" style="display:none;">
+          <div style="display:flex; align-items:center; gap:0.6rem;">
+            <span style="font-size:1.1rem; animation:micPulse 1s infinite;">🔴</span>
+            <span><strong>Listening...</strong> <span id="voiceLiveTranscript" class="voice-live-transcript">Speak now</span></span>
+          </div>
+          <button type="button" id="cancelVoiceBtn" class="btn btn-danger btn-sm" style="padding:0.2rem 0.55rem; font-size:0.75rem;">
+            Stop Listening
+          </button>
         </div>
 
         <!-- Prompt Shortcut Chips Carousel -->
@@ -119,13 +136,17 @@
           </button>
         </div>
 
-        <!-- Input Bar -->
+        <!-- Input Bar with Microphone -->
         <form id="chatInputForm" class="chat-input-bar">
+          <button type="button" id="micBtn" class="mic-btn" title="Click to speak with AI using your microphone">
+            <span id="micIcon">🎙️</span>
+            <span id="micLabel">Speak</span>
+          </button>
           <input 
             type="text" 
             id="chatInput" 
             class="chat-input-field" 
-            placeholder="Ask about meal plans, Tamil foods, workouts, protein goals..." 
+            placeholder="Type or click 'Speak' to ask about workouts, meals, Tamil foods..." 
             autocomplete="off"
             required
           >
