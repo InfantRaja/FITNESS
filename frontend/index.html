@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="FitTrack - Modern personal fitness tracker web application. Track workouts, nutrition, hydration, and body metrics with precision.">
+  <title>FitTrack — Elevate Your Fitness Journey</title>
+  
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Core Styles -->
+  <link rel="stylesheet" href="assets/css/main.css">
+  <link rel="stylesheet" href="assets/css/components.css">
+  <link rel="stylesheet" href="assets/css/layout.css">
+  <link rel="stylesheet" href="assets/css/pages.css">
+</head>
+<body>
+
+  <!-- Landing Navigation -->
+  <header>
+    <nav class="landing-nav">
+      <a href="index.html" class="brand-logo">
+        <div class="brand-icon">F</div>
+        <span>Fit<span class="text-primary">Track</span></span>
+      </a>
+
+      <ul class="landing-nav-links">
+        <li><a href="#features">Features</a></li>
+        <li><a href="#analytics">Analytics</a></li>
+        <li><a href="dashboard.html">Live Demo</a></li>
+      </ul>
+
+      <div style="display:flex; align-items:center; gap:1rem;">
+        <button id="themeToggleBtn" class="theme-toggle-btn" title="Toggle Light/Dark Theme">
+          <span id="themeIcon">🌙</span>
+        </button>
+        <a href="login.html" class="btn btn-secondary btn-sm">Log In</a>
+        <a href="register.html" class="btn btn-primary btn-sm">Get Started</a>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Hero Section -->
+  <main>
+    <section class="hero-section">
+      <div class="hero-badge">
+        <span>⚡ 100% Free & Open Fitness Tracker</span>
+      </div>
+      <h1 class="hero-title">
+        Crush Your Fitness Goals <br>
+        <span class="gradient-text">With Pure Precision</span>
+      </h1>
+      <p class="hero-desc">
+        The all-in-one workout logger, macro nutrition calculator, hydration tracker, and body metric analytics platform built for real progress.
+      </p>
+
+      <div class="hero-cta">
+        <a href="register.html" class="btn btn-primary btn-lg">
+          Start Your Free Journey
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+        <a href="dashboard.html" class="btn btn-secondary btn-lg">
+          Explore Live Dashboard
+        </a>
+      </div>
+
+      <!-- App Preview Dashboard Teaser Card -->
+      <div class="hero-preview">
+        <div class="grid-4" style="margin-bottom: 1.5rem;">
+          <div class="stat-card">
+            <div class="stat-icon-wrap stat-icon-green">🔥</div>
+            <div class="stat-info">
+              <span class="stat-label">Daily Calories</span>
+              <span class="stat-value">1,850 <small style="font-size:0.9rem; color:var(--text-muted);">/ 2,200</small></span>
+              <span class="stat-subtext text-success">350 kcal deficit</span>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon-wrap stat-icon-blue">💧</div>
+            <div class="stat-info">
+              <span class="stat-label">Hydration</span>
+              <span class="stat-value">2,000 <small style="font-size:0.9rem; color:var(--text-muted);">ml</small></span>
+              <span class="stat-subtext text-blue">80% of daily target</span>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon-wrap stat-icon-purple">🏋️</div>
+            <div class="stat-info">
+              <span class="stat-label">Workout Time</span>
+              <span class="stat-value">45 <small style="font-size:0.9rem; color:var(--text-muted);">mins</small></span>
+              <span class="stat-subtext">Upper Body Push</span>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon-wrap stat-icon-orange">⚖️</div>
+            <div class="stat-info">
+              <span class="stat-label">Body Weight</span>
+              <span class="stat-value">72.4 <small style="font-size:0.9rem; color:var(--text-muted);">kg</small></span>
+              <span class="stat-subtext text-success">-0.5 kg this week</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="feature-grid">
+      <div class="feature-card">
+        <div class="feature-icon-box">🏋️</div>
+        <h3 class="font-bold" style="font-size:1.3rem; margin-bottom:0.75rem;">Dynamic Workout Logger</h3>
+        <p class="text-muted">
+          Log sets, repetitions, weights, and rest periods with an intuitive interface. Keep track of progressive overload across all exercises.
+        </p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon-box">🥗</div>
+        <h3 class="font-bold" style="font-size:1.3rem; margin-bottom:0.75rem;">Macro Nutrition Tracker</h3>
+        <p class="text-muted">
+          Monitor your daily caloric intake alongside protein, carbohydrates, and fats. Categorized across Breakfast, Lunch, Dinner, and Snacks.
+        </p>
+      </div>
+
+      <div class="feature-card" id="analytics">
+        <div class="feature-icon-box">📊</div>
+        <h3 class="font-bold" style="font-size:1.3rem; margin-bottom:0.75rem;">Visual Chart Analytics</h3>
+        <p class="text-muted">
+          Visualize your 7-day and 30-day weight trends, calorie burn vs intake, and consistency rates using dynamic Chart.js analytics.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <!-- Landing Footer -->
+  <footer style="border-top:1px solid var(--border-subtle); padding:3rem 2rem; text-align:center; color:var(--text-dim); font-size:0.9rem;">
+    <p>&copy; 2026 FitTrack. Built for dedicated athletes, students, and fitness enthusiasts.</p>
+    <p style="margin-top:0.5rem;">
+      <a href="login.html" class="text-muted">Log In</a> &bull; 
+      <a href="register.html" class="text-muted">Sign Up</a> &bull; 
+      <a href="dashboard.html" class="text-muted">Live App</a>
+    </p>
+  </footer>
+
+  <script src="assets/js/api.js"></script>
+  <script src="assets/js/ui.js"></script>
+</body>
+</html>

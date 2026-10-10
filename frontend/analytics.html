@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Progress & Analytics — FitTrack</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="assets/css/main.css">
+  <link rel="stylesheet" href="assets/css/components.css">
+  <link rel="stylesheet" href="assets/css/layout.css">
+  <link rel="stylesheet" href="assets/css/pages.css">
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+</head>
+<body class="app-layout">
+
+  <div id="mobileOverlay" class="mobile-overlay"></div>
+
+  <!-- Sidebar Navigation -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <a href="dashboard.html" class="brand-logo">
+        <div class="brand-icon">F</div>
+        <span>Fit<span class="text-primary">Track</span></span>
+      </a>
+    </div>
+
+    <ul class="sidebar-nav">
+      <span class="nav-label">Core Modules</span>
+      <li class="nav-item"><a href="dashboard.html" class="nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Dashboard</a></li>
+      <li class="nav-item"><a href="workouts.html" class="nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 5v14M18 5v14M2 9h4M18 9h4M2 15h4M18 15h4"/></svg>Workouts</a></li>
+      <li class="nav-item"><a href="nutrition.html" class="nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8h1a4 4 0 0 1 0 8h-1M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/></svg>Nutrition</a></li>
+      <li class="nav-item"><a href="water.html" class="nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>Hydration</a></li>
+
+      <span class="nav-label" style="margin-top:1rem;">Insights & Goals</span>
+      <li class="nav-item"><a href="goals.html" class="nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m10 15 5-3-5-3v6z"/></svg>Fitness Goals</a></li>
+      <li class="nav-item"><a href="analytics.html" class="nav-link active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>Analytics</a></li>
+      <li class="nav-item"><a href="history.html" class="nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>History & Export</a></li>
+
+      <span class="nav-label" style="margin-top:1rem;">Account</span>
+      <li class="nav-item"><a href="profile.html" class="nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Profile & Settings</a></li>
+    </ul>
+
+    <div class="sidebar-footer">
+      <button onclick="logoutUser()" class="btn btn-secondary btn-sm" style="width:100%;">Log Out</button>
+    </div>
+  </aside>
+
+  <!-- Main Content Layout -->
+  <div class="main-wrapper">
+    <header class="top-header">
+      <div class="header-left">
+        <button id="mobileNavToggle" class="mobile-nav-toggle">☰</button>
+        <h1 class="page-title">Progress & Analytics</h1>
+      </div>
+
+      <div class="header-right">
+        <button id="themeToggleBtn" class="theme-toggle-btn" title="Toggle Light/Dark Theme">
+          <span id="themeIcon">🌙</span>
+        </button>
+        <a href="profile.html" class="user-dropdown">
+          <div class="user-avatar" id="userAvatar">A</div>
+          <span class="user-name-label" id="userNameLabel">User</span>
+        </a>
+      </div>
+    </header>
+
+    <main class="content-body">
+      <div class="flex-between" style="margin-bottom:1.5rem; flex-wrap:wrap; gap:1rem;">
+        <div>
+          <h2 style="font-size:1.15rem; font-weight:700;">Performance Visualizations</h2>
+          <p class="text-muted" style="font-size:0.85rem;">Identify patterns and monitor physical transformation over time.</p>
+        </div>
+
+        <button onclick="openModal('logWeightModal')" class="btn btn-primary">
+          ⚖️ Log Body Weight & Metrics
+        </button>
+      </div>
+
+      <!-- Chart 1: Weight Trajectory -->
+      <div class="card" style="margin-bottom:2rem;">
+        <div class="card-header">
+          <h3 class="card-title">⚖️ Body Weight Trajectory</h3>
+          <span class="badge badge-blue">Weight in kg</span>
+        </div>
+        <div style="height: 320px; position:relative;">
+          <canvas id="weightTrajectoryChart"></canvas>
+        </div>
+      </div>
+
+      <!-- 2 Charts Grid -->
+      <div class="grid-equal-2">
+        <!-- Chart 2: Calories Balance -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">🔥 Daily Intake vs Burn</h3>
+            <span class="badge badge-green">Last 7 Days</span>
+          </div>
+          <div style="height: 280px; position:relative;">
+            <canvas id="calorieAnalysisChart"></canvas>
+          </div>
+        </div>
+
+        <!-- Chart 3: Workout Duration -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">⏱️ Workout Duration</h3>
+            <span class="badge badge-purple" style="background:rgba(139,92,246,0.15); color:var(--accent-purple);">Minutes Active</span>
+          </div>
+          <div style="height: 280px; position:relative;">
+            <canvas id="workoutFrequencyChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Log Weight Modal -->
+  <div id="logWeightModal" class="modal-overlay">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3 class="modal-title">⚖️ Record Body Metric</h3>
+        <button onclick="closeModal('logWeightModal')" class="modal-close">&times;</button>
+      </div>
+
+      <form id="logWeightForm">
+        <div class="form-group">
+          <label class="form-label" for="metricWeight">Current Body Weight (kg)</label>
+          <input type="number" id="metricWeight" class="form-input" placeholder="e.g. 72.4" step="0.1" min="20" required>
+        </div>
+
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+          <div class="form-group">
+            <label class="form-label" for="metricWaist">Waist (cm, optional)</label>
+            <input type="number" id="metricWaist" class="form-input" placeholder="82" step="0.5">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="metricChest">Chest (cm, optional)</label>
+            <input type="number" id="metricChest" class="form-input" placeholder="98" step="0.5">
+          </div>
+        </div>
+
+        <div style="display:flex; justify-content:flex-end; gap:0.75rem; margin-top:1.5rem;">
+          <button type="button" onclick="closeModal('logWeightModal')" class="btn btn-secondary">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Metric</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="assets/js/api.js"></script>
+  <script src="assets/js/ui.js"></script>
+  <script src="assets/js/auth.js"></script>
+  <script src="assets/js/analytics.js"></script>
+</body>
+</html>

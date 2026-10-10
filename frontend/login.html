@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Log In — FitTrack</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="assets/css/main.css">
+  <link rel="stylesheet" href="assets/css/components.css">
+  <link rel="stylesheet" href="assets/css/pages.css">
+</head>
+<body class="auth-wrapper">
+
+  <div class="auth-card">
+    <div class="auth-header">
+      <a href="index.html" class="brand-logo" style="justify-content: center;">
+        <div class="brand-icon">F</div>
+        <span>Fit<span class="text-primary">Track</span></span>
+      </a>
+      <h2 class="auth-title">Welcome Back</h2>
+      <p class="auth-subtitle">Log in to track your training and nutrition progress.</p>
+    </div>
+
+    <form id="loginForm">
+      <div class="form-group">
+        <label for="loginEmail" class="form-label">Email Address</label>
+        <input 
+          type="email" 
+          id="loginEmail" 
+          class="form-input" 
+          placeholder="alex@fitness.com" 
+          required 
+          autocomplete="email"
+        >
+      </div>
+
+      <div class="form-group">
+        <div class="flex-between" style="margin-bottom:0.5rem;">
+          <label for="loginPassword" class="form-label" style="margin-bottom:0;">Password</label>
+          <a href="forgot-password.html" style="font-size:0.8rem; color:var(--primary);">Forgot Password?</a>
+        </div>
+        <input 
+          type="password" 
+          id="loginPassword" 
+          class="form-input" 
+          placeholder="••••••••" 
+          required 
+          autocomplete="current-password"
+        >
+      </div>
+
+      <button type="submit" class="btn btn-primary" style="width:100%; margin-top:0.75rem;">
+        Sign In to Account
+      </button>
+    </form>
+
+    <div class="auth-footer-text">
+      Don't have an account yet? <a href="register.html">Sign Up Free</a>
+    </div>
+
+    <div style="margin-top: 1.5rem; padding-top: 1.25rem; border-top: 1px solid var(--border-subtle);">
+      <a href="dashboard.html" class="btn btn-secondary btn-sm" style="width: 100%;">
+        ⚡ Explore Live Demo Mode
+      </a>
+    </div>
+  </div>
+
+  <script src="assets/js/api.js"></script>
+  <script src="assets/js/ui.js"></script>
+  <script src="assets/js/auth.js"></script>
+  <script>
+    // Redirect if already logged in
+    redirectIfAuth();
+  </script>
+</body>
+</html>

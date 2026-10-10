@@ -1,0 +1,346 @@
+/* ==========================================================================
+   FitTrack - Page-Specific Styles (pages.css)
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. LANDING PAGE
+   -------------------------------------------------------------------------- */
+.landing-nav {
+  height: 80px;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.landing-nav-links {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  list-style: none;
+}
+
+.landing-nav-links a {
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.landing-nav-links a:hover {
+  color: var(--text-main);
+}
+
+.hero-section {
+  max-width: 1200px;
+  margin: 4rem auto 6rem;
+  padding: 0 2rem;
+  text-align: center;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 1rem;
+  border-radius: var(--radius-full);
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  color: var(--primary);
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+}
+
+.hero-title {
+  font-size: 3.5rem;
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+  margin-bottom: 1.5rem;
+  color: #fff;
+}
+
+.hero-title .gradient-text {
+  background: linear-gradient(135deg, #10b981 0%, #38bdf8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero-desc {
+  font-size: 1.25rem;
+  color: var(--text-muted);
+  max-width: 680px;
+  margin: 0 auto 2.5rem;
+}
+
+.hero-cta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.25rem;
+  margin-bottom: 4rem;
+}
+
+.hero-preview {
+  position: relative;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 1px solid var(--border-subtle);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
+  background: var(--bg-surface);
+  padding: 1rem;
+}
+
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto 6rem;
+  padding: 0 2rem;
+}
+
+.feature-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 2.25rem;
+  text-align: left;
+  transition: all var(--transition-normal);
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--primary);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+.feature-icon-box {
+  width: 52px;
+  height: 52px;
+  border-radius: var(--radius-md);
+  background: rgba(16, 185, 129, 0.15);
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+/* --------------------------------------------------------------------------
+   2. AUTHENTICATION PAGES (Login, Register, Forgot Password)
+   -------------------------------------------------------------------------- */
+.auth-wrapper {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+  background: radial-gradient(circle at top, #141f35 0%, #0a0e17 100%);
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 440px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 2.5rem 2rem;
+  box-shadow: var(--shadow-lg);
+  text-align: center;
+}
+
+.auth-header {
+  margin-bottom: 2rem;
+}
+
+.auth-title {
+  font-size: 1.65rem;
+  font-weight: 700;
+  margin-top: 1rem;
+  color: var(--text-main);
+}
+
+.auth-subtitle {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin-top: 0.35rem;
+}
+
+.auth-divider {
+  display: flex;
+  align-items: center;
+  margin: 1.5rem 0;
+  color: var(--text-dim);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+}
+
+.auth-divider::before, .auth-divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.auth-divider span {
+  padding: 0 0.75rem;
+}
+
+.auth-footer-text {
+  margin-top: 1.5rem;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.auth-footer-text a {
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.auth-footer-text a:hover {
+  text-decoration: underline;
+}
+
+/* --------------------------------------------------------------------------
+   3. HYDRATION TRACKER (Water Page)
+   -------------------------------------------------------------------------- */
+.water-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem 0;
+}
+
+.water-tank {
+  width: 220px;
+  height: 280px;
+  border: 4px solid var(--accent-blue);
+  border-radius: 0 0 70px 70px;
+  position: relative;
+  overflow: hidden;
+  background: rgba(59, 130, 246, 0.05);
+  box-shadow: 0 0 25px rgba(59, 130, 246, 0.2);
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.water-liquid {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(180deg, #38bdf8 0%, #2563eb 100%);
+  transition: height 0.6s ease;
+  opacity: 0.75;
+}
+
+.water-tank-text {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  color: #fff;
+  font-weight: 800;
+}
+
+.water-tank-val {
+  font-size: 2.25rem;
+  line-height: 1;
+}
+
+.water-tank-percent {
+  font-size: 1rem;
+  opacity: 0.85;
+}
+
+.water-quick-buttons {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* --------------------------------------------------------------------------
+   4. WORKOUT TRACKER (Dynamic sets builder)
+   -------------------------------------------------------------------------- */
+.exercise-card-builder {
+  background: var(--bg-surface-elevated);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 1.25rem;
+  margin-bottom: 1.25rem;
+}
+
+.set-table-header {
+  display: grid;
+  grid-template-columns: 80px 1fr 1fr 60px;
+  gap: 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+  padding: 0 0.5rem;
+}
+
+.set-table-row {
+  display: grid;
+  grid-template-columns: 80px 1fr 1fr 60px;
+  gap: 0.75rem;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.set-badge {
+  background: var(--bg-surface);
+  color: var(--text-muted);
+  border-radius: var(--radius-sm);
+  padding: 0.4rem;
+  text-align: center;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+/* --------------------------------------------------------------------------
+   5. NUTRITION MACROS BAR
+   -------------------------------------------------------------------------- */
+.macro-summary-bar {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  background: var(--bg-surface-elevated);
+  padding: 1.25rem;
+  border-radius: var(--radius-lg);
+  margin-bottom: 2rem;
+  border: 1px solid var(--border-subtle);
+}
+
+.macro-item {
+  text-align: center;
+}
+
+.macro-title {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.macro-val {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-top: 0.25rem;
+}
+
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 2.25rem;
+  }
+  .macro-summary-bar {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

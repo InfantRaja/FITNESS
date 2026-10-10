@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nutrition & Macros — FitTrack</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="assets/css/main.css">
+  <link rel="stylesheet" href="assets/css/components.css">
+  <link rel="stylesheet" href="assets/css/layout.css">
+  <link rel="stylesheet" href="assets/css/pages.css">
+</head>
+<body class="app-layout">
+
+  <div id="mobileOverlay" class="mobile-overlay"></div>
+
+  <!-- Sidebar Navigation -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <a href="dashboard.html" class="brand-logo">
+        <div class="brand-icon">F</div>
+        <span>Fit<span class="text-primary">Track</span></span>
+      </a>
+    </div>
+
+    <ul class="sidebar-nav">
+      <span class="nav-label">Core Modules</span>
+      <li class="nav-item"><a href="dashboard.html" class="nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Dashboard</a></li>
+      <li class="nav-item"><a href="workouts.html" class="nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 5v14M18 5v14M2 9h4M18 9h4M2 15h4M18 15h4"/></svg>Workouts</a></li>
+      <li class="nav-item"><a href="nutrition.html" class="nav-link active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8h1a4 4 0 0 1 0 8h-1M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/></svg>Nutrition</a></li>
+      <li class="nav-item"><a href="water.html" class="nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>Hydration</a></li>
+
+      <span class="nav-label" style="margin-top:1rem;">Insights & Goals</span>
+      <li class="nav-item"><a href="goals.html" class="nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m10 15 5-3-5-3v6z"/></svg>Fitness Goals</a></li>
+      <li class="nav-item"><a href="analytics.html" class="nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>Analytics</a></li>
+      <li class="nav-item"><a href="history.html" class="nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>History & Export</a></li>
+
+      <span class="nav-label" style="margin-top:1rem;">Account</span>
+      <li class="nav-item"><a href="profile.html" class="nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Profile & Settings</a></li>
+    </ul>
+
+    <div class="sidebar-footer">
+      <button onclick="logoutUser()" class="btn btn-secondary btn-sm" style="width:100%;">Log Out</button>
+    </div>
+  </aside>
+
+  <!-- Main Content Layout -->
+  <div class="main-wrapper">
+    <header class="top-header">
+      <div class="header-left">
+        <button id="mobileNavToggle" class="mobile-nav-toggle">☰</button>
+        <h1 class="page-title">Nutrition & Macro Tracker</h1>
+      </div>
+
+      <div class="header-right">
+        <button id="themeToggleBtn" class="theme-toggle-btn" title="Toggle Light/Dark Theme">
+          <span id="themeIcon">🌙</span>
+        </button>
+        <a href="profile.html" class="user-dropdown">
+          <div class="user-avatar" id="userAvatar">A</div>
+          <span class="user-name-label" id="userNameLabel">User</span>
+        </a>
+      </div>
+    </header>
+
+    <main class="content-body">
+      <!-- Top Macro Summary Bar -->
+      <div class="macro-summary-bar">
+        <div class="macro-item">
+          <span class="macro-title">Total Calories</span>
+          <div class="macro-val text-primary" id="totalCaloriesVal">0</div>
+        </div>
+        <div class="macro-item">
+          <span class="macro-title">Protein</span>
+          <div class="macro-val" style="color:var(--primary);" id="totalProteinVal">0g</div>
+        </div>
+        <div class="macro-item">
+          <span class="macro-title">Carbohydrates</span>
+          <div class="macro-val" style="color:var(--accent-blue);" id="totalCarbsVal">0g</div>
+        </div>
+        <div class="macro-item">
+          <span class="macro-title">Fats</span>
+          <div class="macro-val" style="color:var(--accent-orange);" id="totalFatVal">0g</div>
+        </div>
+      </div>
+
+      <!-- 4 Meal Categories Grid -->
+      <div class="grid-equal-2">
+        <!-- Breakfast -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">🍳 Breakfast</h3>
+            <button onclick="openAddFoodWithMeal('Breakfast')" class="btn btn-outline btn-sm">+ Add</button>
+          </div>
+          <div id="mealList_breakfast"></div>
+        </div>
+
+        <!-- Lunch -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">🥪 Lunch</h3>
+            <button onclick="openAddFoodWithMeal('Lunch')" class="btn btn-outline btn-sm">+ Add</button>
+          </div>
+          <div id="mealList_lunch"></div>
+        </div>
+
+        <!-- Dinner -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">🍲 Dinner</h3>
+            <button onclick="openAddFoodWithMeal('Dinner')" class="btn btn-outline btn-sm">+ Add</button>
+          </div>
+          <div id="mealList_dinner"></div>
+        </div>
+
+        <!-- Snacks -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">🍎 Snacks & Shakes</h3>
+            <button onclick="openAddFoodWithMeal('Snack')" class="btn btn-outline btn-sm">+ Add</button>
+          </div>
+          <div id="mealList_snack"></div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Add Food Modal -->
+  <div id="addFoodModal" class="modal-overlay">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3 class="modal-title">🥗 Log Food / Meal</h3>
+        <button onclick="closeModal('addFoodModal')" class="modal-close">&times;</button>
+      </div>
+
+      <form id="addFoodForm">
+        <div class="form-group">
+          <label class="form-label" for="foodMealType">Meal Category</label>
+          <select id="foodMealType" class="form-select">
+            <option value="Breakfast">Breakfast</option>
+            <option value="Lunch">Lunch</option>
+            <option value="Dinner">Dinner</option>
+            <option value="Snack">Snack</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="foodName">Food / Item Name</label>
+          <input type="text" id="foodName" class="form-input" placeholder="e.g. Grilled Chicken Breast (200g)" required>
+        </div>
+
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+          <div class="form-group">
+            <label class="form-label" for="foodCalories">Calories (kcal)</label>
+            <input type="number" id="foodCalories" class="form-input" placeholder="320" min="0" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="foodProtein">Protein (g)</label>
+            <input type="number" id="foodProtein" class="form-input" placeholder="45" min="0" step="0.5">
+          </div>
+        </div>
+
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+          <div class="form-group">
+            <label class="form-label" for="foodCarbs">Carbs (g)</label>
+            <input type="number" id="foodCarbs" class="form-input" placeholder="10" min="0" step="0.5">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="foodFat">Fat (g)</label>
+            <input type="number" id="foodFat" class="form-input" placeholder="6" min="0" step="0.5">
+          </div>
+        </div>
+
+        <div style="display:flex; justify-content:flex-end; gap:0.75rem; margin-top:1.5rem;">
+          <button type="button" onclick="closeModal('addFoodModal')" class="btn btn-secondary">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Food Item</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="assets/js/api.js"></script>
+  <script src="assets/js/ui.js"></script>
+  <script src="assets/js/auth.js"></script>
+  <script src="assets/js/nutrition.js"></script>
+</body>
+</html>

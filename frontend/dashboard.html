@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard — FitTrack</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="assets/css/main.css">
+  <link rel="stylesheet" href="assets/css/components.css">
+  <link rel="stylesheet" href="assets/css/layout.css">
+  <link rel="stylesheet" href="assets/css/pages.css">
+
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+</head>
+<body class="app-layout">
+
+  <!-- Mobile Overlay -->
+  <div id="mobileOverlay" class="mobile-overlay"></div>
+
+  <!-- Sidebar Navigation -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <a href="dashboard.html" class="brand-logo">
+        <div class="brand-icon">F</div>
+        <span>Fit<span class="text-primary">Track</span></span>
+      </a>
+    </div>
+
+    <ul class="sidebar-nav">
+      <span class="nav-label">Core Modules</span>
+      <li class="nav-item">
+        <a href="dashboard.html" class="nav-link active">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          Dashboard
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="workouts.html" class="nav-link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 5v14M18 5v14M2 9h4M18 9h4M2 15h4M18 15h4"/></svg>
+          Workouts
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="nutrition.html" class="nav-link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8h1a4 4 0 0 1 0 8h-1M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/></svg>
+          Nutrition
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="water.html" class="nav-link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
+          Hydration
+        </a>
+      </li>
+
+      <span class="nav-label" style="margin-top:1rem;">Insights & Goals</span>
+      <li class="nav-item">
+        <a href="goals.html" class="nav-link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m10 15 5-3-5-3v6z"/></svg>
+          Fitness Goals
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="analytics.html" class="nav-link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
+          Analytics
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="history.html" class="nav-link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          History & Export
+        </a>
+      </li>
+
+      <span class="nav-label" style="margin-top:1rem;">Account</span>
+      <li class="nav-item">
+        <a href="profile.html" class="nav-link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          Profile & Settings
+        </a>
+      </li>
+    </ul>
+
+    <div class="sidebar-footer">
+      <button onclick="logoutUser()" class="btn btn-secondary btn-sm" style="width:100%;">
+        Log Out
+      </button>
+    </div>
+  </aside>
+
+  <!-- Main Content Layout -->
+  <div class="main-wrapper">
+    <!-- Header -->
+    <header class="top-header">
+      <div class="header-left">
+        <button id="mobileNavToggle" class="mobile-nav-toggle" aria-label="Toggle navigation">☰</button>
+        <h1 class="page-title">Daily Dashboard</h1>
+      </div>
+
+      <div class="header-right">
+        <button id="themeToggleBtn" class="theme-toggle-btn" title="Toggle Light/Dark Theme">
+          <span id="themeIcon">🌙</span>
+        </button>
+
+        <a href="profile.html" class="user-dropdown">
+          <div class="user-avatar" id="userAvatar">A</div>
+          <span class="user-name-label" id="userNameLabel">Alex</span>
+        </a>
+      </div>
+    </header>
+
+    <!-- Main Content Body -->
+    <main class="content-body">
+      <!-- Quick Action Floating Bar -->
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem; flex-wrap:wrap; gap:1rem;">
+        <div>
+          <h2 style="font-size:1.15rem; font-weight:700;">Welcome back! Here is today's summary:</h2>
+          <p class="text-muted" style="font-size:0.85rem;" id="todayDateStr">Keep your momentum going strong.</p>
+        </div>
+
+        <div style="display:flex; gap:0.75rem; flex-wrap:wrap;">
+          <button id="dashQuickWaterBtn" class="btn btn-secondary btn-sm">
+            💧 +250ml Water
+          </button>
+          <a href="workouts.html" class="btn btn-primary btn-sm">
+            🏋️ + Log Workout
+          </a>
+          <a href="nutrition.html" class="btn btn-outline btn-sm">
+            🥗 + Log Meal
+          </a>
+        </div>
+      </div>
+
+      <!-- 4 Stat Summary Cards -->
+      <div class="grid-4">
+        <!-- Calories -->
+        <div class="stat-card">
+          <div class="stat-icon-wrap stat-icon-green">🔥</div>
+          <div class="stat-info">
+            <span class="stat-label">Daily Calories</span>
+            <div class="stat-value" id="dashCaloriesVal">0</div>
+            <span class="stat-subtext" id="dashCalorieDeficit">Target: <span id="dashCalorieTarget">2,000</span> kcal</span>
+          </div>
+        </div>
+
+        <!-- Hydration -->
+        <div class="stat-card">
+          <div class="stat-icon-wrap stat-icon-blue">💧</div>
+          <div class="stat-info">
+            <span class="stat-label">Hydration</span>
+            <div class="stat-value" id="dashWaterVal">0 ml</div>
+            <span class="stat-subtext text-blue" id="dashWaterTarget">Target: 2,500 ml</span>
+          </div>
+        </div>
+
+        <!-- Workout Duration -->
+        <div class="stat-card">
+          <div class="stat-icon-wrap stat-icon-purple">⏱️</div>
+          <div class="stat-info">
+            <span class="stat-label">Workout Time</span>
+            <div class="stat-value" id="dashWorkoutVal">0 mins</div>
+            <span class="stat-subtext" id="dashWorkoutSub">0 kcal burned</span>
+          </div>
+        </div>
+
+        <!-- Body Weight -->
+        <div class="stat-card">
+          <div class="stat-icon-wrap stat-icon-orange">⚖️</div>
+          <div class="stat-info">
+            <span class="stat-label">Current Weight</span>
+            <div class="stat-value" id="dashWeightVal">-- kg</div>
+            <span class="stat-subtext text-success">Logged metric</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2-Column Grid: Charts & Activity -->
+      <div class="grid-2">
+        <!-- 7-Day Calorie & Burn Trend Chart -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
+              Weekly Caloric Balance
+            </h3>
+            <span class="badge badge-green">Last 7 Days</span>
+          </div>
+          <div style="height: 280px; position:relative;">
+            <canvas id="weeklyTrendChart"></canvas>
+          </div>
+        </div>
+
+        <!-- Macro Distribution Doughnut Chart -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Macronutrient Split</h3>
+            <span class="badge badge-blue">Today</span>
+          </div>
+          <div style="height: 280px; position:relative;">
+            <canvas id="macroDoughnutChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- Today's Activity Feed -->
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Today's Logged Activity</h3>
+          <a href="history.html" class="btn btn-secondary btn-sm">View All History</a>
+        </div>
+        <div id="todayFeedList">
+          <div class="spinner"></div> Loading activity...
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="assets/js/api.js"></script>
+  <script src="assets/js/ui.js"></script>
+  <script src="assets/js/auth.js"></script>
+  <script src="assets/js/dashboard.js"></script>
+  <script>
+    // Format today's date in header subtext
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    const dateEl = document.getElementById('todayDateStr');
+    if (dateEl) dateEl.textContent = new Date().toLocaleDateString('en-US', options);
+  </script>
+</body>
+</html>

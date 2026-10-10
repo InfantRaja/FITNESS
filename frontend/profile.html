@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profile & Settings — FitTrack</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="assets/css/main.css">
+  <link rel="stylesheet" href="assets/css/components.css">
+  <link rel="stylesheet" href="assets/css/layout.css">
+  <link rel="stylesheet" href="assets/css/pages.css">
+</head>
+<body class="app-layout">
+
+  <div id="mobileOverlay" class="mobile-overlay"></div>
+
+  <!-- Sidebar Navigation -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <a href="dashboard.html" class="brand-logo">
+        <div class="brand-icon">F</div>
+        <span>Fit<span class="text-primary">Track</span></span>
+      </a>
+    </div>
+
+    <ul class="sidebar-nav">
+      <span class="nav-label">Core Modules</span>
+      <li class="nav-item"><a href="dashboard.html" class="nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Dashboard</a></li>
+      <li class="nav-item"><a href="workouts.html" class="nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 5v14M18 5v14M2 9h4M18 9h4M2 15h4M18 15h4"/></svg>Workouts</a></li>
+      <li class="nav-item"><a href="nutrition.html" class="nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8h1a4 4 0 0 1 0 8h-1M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/></svg>Nutrition</a></li>
+      <li class="nav-item"><a href="water.html" class="nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>Hydration</a></li>
+
+      <span class="nav-label" style="margin-top:1rem;">Insights & Goals</span>
+      <li class="nav-item"><a href="goals.html" class="nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m10 15 5-3-5-3v6z"/></svg>Fitness Goals</a></li>
+      <li class="nav-item"><a href="analytics.html" class="nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>Analytics</a></li>
+      <li class="nav-item"><a href="history.html" class="nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>History & Export</a></li>
+
+      <span class="nav-label" style="margin-top:1rem;">Account</span>
+      <li class="nav-item"><a href="profile.html" class="nav-link active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Profile & Settings</a></li>
+    </ul>
+
+    <div class="sidebar-footer">
+      <button onclick="logoutUser()" class="btn btn-secondary btn-sm" style="width:100%;">Log Out</button>
+    </div>
+  </aside>
+
+  <!-- Main Content Layout -->
+  <div class="main-wrapper">
+    <header class="top-header">
+      <div class="header-left">
+        <button id="mobileNavToggle" class="mobile-nav-toggle">☰</button>
+        <h1 class="page-title">Profile & Preferences</h1>
+      </div>
+
+      <div class="header-right">
+        <button id="themeToggleBtn" class="theme-toggle-btn" title="Toggle Light/Dark Theme">
+          <span id="themeIcon">🌙</span>
+        </button>
+        <a href="profile.html" class="user-dropdown">
+          <div class="user-avatar" id="userAvatar">A</div>
+          <span class="user-name-label" id="userNameLabel">User</span>
+        </a>
+      </div>
+    </header>
+
+    <main class="content-body">
+      <div class="grid-equal-2">
+        <!-- Profile & Physical Parameters -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">👤 Personal Fitness Profile</h3>
+          </div>
+
+          <form id="updateProfileForm">
+            <div class="form-group">
+              <label class="form-label" for="profileName">Full Name</label>
+              <input type="text" id="profileName" class="form-input" required>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="profileEmail">Email Address (Read-only)</label>
+              <input type="email" id="profileEmail" class="form-input" disabled style="opacity:0.6;">
+            </div>
+
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+              <div class="form-group">
+                <label class="form-label" for="profileAge">Age (Years)</label>
+                <input type="number" id="profileAge" class="form-input" placeholder="24" min="10" max="120">
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="profileGender">Gender</label>
+                <select id="profileGender" class="form-select">
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                  <option value="other">Other</option>
+                  <option value="prefer_not_to_say">Prefer not to say</option>
+                </select>
+              </div>
+            </div>
+
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+              <div class="form-group">
+                <label class="form-label" for="profileHeight">Height (cm)</label>
+                <input type="number" id="profileHeight" class="form-input" placeholder="175" min="50" max="280">
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="profileTargetWeight">Target Weight (kg)</label>
+                <input type="number" id="profileTargetWeight" class="form-input" placeholder="70" step="0.1">
+              </div>
+            </div>
+
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+              <div class="form-group">
+                <label class="form-label" for="profileCalorieTarget">Daily Calorie Target (kcal)</label>
+                <input type="number" id="profileCalorieTarget" class="form-input" placeholder="2000" min="500">
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="profileWaterTarget">Daily Water Target (ml)</label>
+                <input type="number" id="profileWaterTarget" class="form-input" placeholder="2500" min="500">
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="margin-top:0.75rem;">
+              Save Profile Changes
+            </button>
+          </form>
+        </div>
+
+        <!-- Security & Danger Zone Column -->
+        <div style="display:flex; flex-direction:column; gap:1.5rem;">
+          <!-- Security / Change Password -->
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">🔒 Change Password</h3>
+            </div>
+
+            <form id="changePasswordForm">
+              <div class="form-group">
+                <label class="form-label" for="currentPassword">Current Password</label>
+                <input type="password" id="currentPassword" class="form-input" required>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="newPassword">New Password</label>
+                <input type="password" id="newPassword" class="form-input" minlength="6" required>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="confirmNewPassword">Confirm New Password</label>
+                <input type="password" id="confirmNewPassword" class="form-input" minlength="6" required>
+              </div>
+
+              <button type="submit" class="btn btn-secondary">
+                Update Security Password
+              </button>
+            </form>
+          </div>
+
+          <!-- Danger Zone -->
+          <div class="card" style="border-color: rgba(239, 68, 68, 0.4);">
+            <div class="card-header">
+              <h3 class="card-title text-danger">⚠️ Session & Account</h3>
+            </div>
+            <p class="text-muted" style="font-size:0.875rem; margin-bottom:1.25rem;">
+              Log out of your current device or reset local cache.
+            </p>
+            <button onclick="logoutUser()" class="btn btn-danger btn-sm">
+              Sign Out from Device
+            </button>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="assets/js/api.js"></script>
+  <script src="assets/js/ui.js"></script>
+  <script src="assets/js/auth.js"></script>
+  <script src="assets/js/profile.js"></script>
+</body>
+</html>
