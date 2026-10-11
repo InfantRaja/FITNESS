@@ -76,9 +76,10 @@ async function loadWorkouts(category = 'All') {
               <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
           `;
           ex.sets.forEach((s) => {
+            const isCompleted = s.completed ? true : false;
             html += `
-              <span class="badge" style="background:var(--bg-surface-elevated); border:1px solid var(--border-subtle); font-size:0.8rem;">
-                Set ${s.setNumber}: ${s.reps} reps @ ${s.weightKg} kg
+              <span class="badge ${isCompleted ? 'badge-green' : ''}" style="background:var(--bg-surface-elevated); border:1px solid ${isCompleted ? 'var(--primary)' : 'var(--border-subtle)'}; font-size:0.8rem;">
+                Set ${s.setNumber}: ${s.reps} reps @ ${s.weightKg} kg ${isCompleted ? '✔' : ''}
               </span>
             `;
           });
@@ -542,12 +543,16 @@ function addExerciseBlock(defaultName = '', defaultSets = null) {
   let setsRowsHtml = '';
   if (defaultSets && defaultSets.length) {
     defaultSets.forEach((s, idx) => {
+      const isCompleted = s.completed ? true : false;
       setsRowsHtml += `
-        <div class="set-table-row">
-          <span class="set-badge">${idx + 1}</span>
+        <div class="set-table-row ${isCompleted ? 'set-completed' : ''}">
+          <span class="set-badge">${isCompleted ? '✓ ' + (idx + 1) : idx + 1}</span>
           <input type="number" class="form-input set-reps" value="${s.reps}" min="1" required>
           <input type="number" class="form-input set-weight" value="${s.weightKg}" min="0" step="0.5" required>
-          <button type="button" onclick="this.parentElement.remove()" class="btn btn-danger btn-sm" style="padding:0.25rem 0.5rem;">✕</button>
+          <button type="button" class="btn-set-done ${isCompleted ? 'is-done' : ''}" onclick="toggleSetDone(this)" title="Mark set as completed">
+            ${isCompleted ? '✔ Done' : '✓ Done'}
+          </button>
+          <button type="button" onclick="removeSetRow(this)" class="btn btn-danger btn-sm" style="padding:0.25rem 0.5rem;" title="Remove set">✕</button>
         </div>
       `;
     });
@@ -557,7 +562,8 @@ function addExerciseBlock(defaultName = '', defaultSets = null) {
         <span class="set-badge">1</span>
         <input type="number" class="form-input set-reps" placeholder="10" min="1" required>
         <input type="number" class="form-input set-weight" placeholder="60" min="0" step="0.5" required>
-        <div></div>
+        <button type="button" class="btn-set-done" onclick="toggleSetDone(this)" title="Mark set as completed">✓ Done</button>
+        <button type="button" onclick="removeSetRow(this)" class="btn btn-danger btn-sm" style="padding:0.25rem 0.5rem;" title="Remove set">✕</button>
       </div>
     `;
   }
@@ -575,6 +581,7 @@ function addExerciseBlock(defaultName = '', defaultSets = null) {
       <div>Set</div>
       <div>Reps</div>
       <div>Weight (kg)</div>
+      <div>Done</div>
       <div></div>
     </div>
     <div class="sets-rows-container">
@@ -594,15 +601,147 @@ window.addSetRow = function (exId) {
   const setsContainer = exBlock.querySelector('.sets-rows-container');
   const currentSets = setsContainer.querySelectorAll('.set-table-row').length + 1;
 
+  // Inherit reps & weight from previous set for faster gym logging
+  const lastRow = setsContainer.lastElementChild;
+  const prevReps = lastRow ? lastRow.querySelector('.set-reps')?.value || '10' : '10';
+  const prevWeight = lastRow ? lastRow.querySelector('.set-weight')?.value || '60' : '60';
+
   const row = document.createElement('div');
   row.className = 'set-table-row';
   row.innerHTML = `
     <span class="set-badge">${currentSets}</span>
-    <input type="number" class="form-input set-reps" placeholder="10" min="1" required>
-    <input type="number" class="form-input set-weight" placeholder="60" min="0" step="0.5" required>
-    <button type="button" onclick="this.parentElement.remove()" class="btn btn-danger btn-sm" style="padding:0.25rem 0.5rem;">✕</button>
+    <input type="number" class="form-input set-reps" value="${prevReps}" min="1" required>
+    <input type="number" class="form-input set-weight" value="${prevWeight}" min="0" step="0.5" required>
+    <button type="button" class="btn-set-done" onclick="toggleSetDone(this)" title="Mark set as completed">✓ Done</button>
+    <button type="button" onclick="removeSetRow(this)" class="btn btn-danger btn-sm" style="padding:0.25rem 0.5rem;" title="Remove set">✕</button>
   `;
   setsContainer.appendChild(row);
+};
+
+// Toggle Set Completed State
+window.toggleSetDone = function (btn) {
+  const row = btn.closest('.set-table-row');
+  if (!row) return;
+
+  const isDone = btn.classList.toggle('is-done');
+  row.classList.toggle('set-completed', isDone);
+
+  const badge = row.querySelector('.set-badge');
+  const setNumber = Array.from(row.parentElement.children).indexOf(row) + 1;
+
+  if (isDone) {
+    btn.innerHTML = '✔ Done';
+    if (badge) badge.innerHTML = `✓ ${setNumber}`;
+    showToast(`Set ${setNumber} completed! Great work! 💪`, 'success');
+    startRestTimer(90); // Start 90s countdown timer
+  } else {
+    btn.innerHTML = '✓ Done';
+    if (badge) badge.innerHTML = `${setNumber}`;
+  }
+};
+
+// Remove Set Row and renumber remaining sets
+window.removeSetRow = function (btn) {
+  const row = btn.closest('.set-table-row');
+  if (!row) return;
+  const container = row.parentElement;
+  row.remove();
+
+  if (container) {
+    const rows = container.querySelectorAll('.set-table-row');
+    rows.forEach((r, idx) => {
+      const badge = r.querySelector('.set-badge');
+      const isCompleted = r.classList.contains('set-completed');
+      if (badge) badge.innerHTML = isCompleted ? `✓ ${idx + 1}` : `${idx + 1}`;
+    });
+  }
+};
+
+// ============================================================================
+// ⏱️ WORKOUT REST TIMER
+// ============================================================================
+let restTimerInterval = null;
+let restSecondsRemaining = 0;
+
+function startRestTimer(seconds = 90) {
+  const modalContainer = document.querySelector('#workoutModal .modal-container');
+  if (!modalContainer) return;
+
+  let timerBar = document.getElementById('workoutRestTimerBar');
+  if (!timerBar) {
+    timerBar = document.createElement('div');
+    timerBar.id = 'workoutRestTimerBar';
+    timerBar.className = 'rest-timer-bar';
+    modalContainer.appendChild(timerBar);
+  }
+
+  clearInterval(restTimerInterval);
+  restSecondsRemaining = seconds;
+
+  function renderTimer() {
+    const m = Math.floor(restSecondsRemaining / 60);
+    const s = restSecondsRemaining % 60;
+    const timeStr = `${m}:${s < 10 ? '0' : ''}${s}`;
+
+    timerBar.innerHTML = `
+      <div class="rest-timer-display">
+        <span>⏱️ Rest Timer:</span>
+        <span style="font-size:1.2rem; color:var(--primary); font-weight:800;">${timeStr}</span>
+      </div>
+      <div style="display:flex; gap:0.4rem; align-items:center;">
+        <button type="button" class="btn btn-secondary btn-sm" onclick="adjustRestTimer(30)" style="padding:0.25rem 0.5rem; font-size:0.75rem;" title="Add 30 seconds">+30s</button>
+        <button type="button" class="btn btn-secondary btn-sm" onclick="adjustRestTimer(-30)" style="padding:0.25rem 0.5rem; font-size:0.75rem;" title="Subtract 30 seconds">-30s</button>
+        <button type="button" class="btn btn-danger btn-sm" onclick="stopRestTimer()" style="padding:0.25rem 0.5rem; font-size:0.75rem;">Skip</button>
+      </div>
+    `;
+  }
+
+  renderTimer();
+  timerBar.style.display = 'flex';
+
+  restTimerInterval = setInterval(() => {
+    restSecondsRemaining--;
+    if (restSecondsRemaining <= 0) {
+      clearInterval(restTimerInterval);
+      timerBar.innerHTML = `
+        <div class="rest-timer-display" style="color:#10b981;">
+          <span>🔔 Rest Complete! Time for the next set! 🔥</span>
+        </div>
+        <button type="button" class="btn btn-primary btn-sm" onclick="stopRestTimer()" style="padding:0.25rem 0.6rem; font-size:0.75rem;">Dismiss</button>
+      `;
+      // Soft audio chime
+      try {
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.frequency.value = 587.33;
+        osc.start();
+        gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.6);
+        setTimeout(() => osc.stop(), 600);
+      } catch (e) {}
+    } else {
+      renderTimer();
+    }
+  }, 1000);
+}
+
+window.adjustRestTimer = function (seconds) {
+  restSecondsRemaining = Math.max(5, restSecondsRemaining + seconds);
+  const timerBar = document.getElementById('workoutRestTimerBar');
+  if (timerBar && restSecondsRemaining > 0) {
+    const m = Math.floor(restSecondsRemaining / 60);
+    const s = restSecondsRemaining % 60;
+    const timeSpan = timerBar.querySelector('.rest-timer-display span:last-child');
+    if (timeSpan) timeSpan.textContent = `${m}:${s < 10 ? '0' : ''}${s}`;
+  }
+};
+
+window.stopRestTimer = function () {
+  clearInterval(restTimerInterval);
+  const timerBar = document.getElementById('workoutRestTimerBar');
+  if (timerBar) timerBar.style.display = 'none';
 };
 
 // Submit Workout Form
@@ -626,7 +765,7 @@ async function submitWorkoutForm() {
   const caloriesBurned = document.getElementById('workoutCalories').value;
   const notes = document.getElementById('workoutNotes').value.trim();
 
-  // Extract exercises and sets
+  // Extract exercises and sets (including completed state)
   const exerciseBlocks = document.querySelectorAll('.exercise-card-builder');
   const exercises = [];
 
@@ -639,7 +778,10 @@ async function submitWorkoutForm() {
     setRows.forEach((row, idx) => {
       const reps = Number(row.querySelector('.set-reps').value) || 1;
       const weight = Number(row.querySelector('.set-weight').value) || 0;
-      sets.push({ setNumber: idx + 1, reps, weightKg: weight });
+      const isCompleted = row.classList.contains('set-completed') || 
+                          row.querySelector('.btn-set-done')?.classList.contains('is-done') || 
+                          false;
+      sets.push({ setNumber: idx + 1, reps, weightKg: weight, completed: !!isCompleted });
     });
 
     exercises.push({ name: exName, sets });
@@ -660,6 +802,7 @@ async function submitWorkoutForm() {
       body: JSON.stringify(payload),
     });
 
+    stopRestTimer();
     showToast('Workout successfully saved!', 'success');
     closeModal('workoutModal');
     document.getElementById('createWorkoutForm').reset();

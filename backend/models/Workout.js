@@ -18,6 +18,10 @@ const exerciseSetSchema = new mongoose.Schema(
       min: 0,
       default: 0,
     },
+    completed: {
+      type: Boolean,
+      default: false,
+    },
   },
   { _id: false }
 );

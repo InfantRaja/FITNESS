@@ -276,22 +276,44 @@
 
 .set-table-header {
   display: grid;
-  grid-template-columns: 80px 1fr 1fr 60px;
-  gap: 0.75rem;
+  grid-template-columns: 60px 1fr 1fr 85px 44px;
+  gap: 0.6rem;
   font-size: 0.75rem;
   font-weight: 700;
   color: var(--text-dim);
   text-transform: uppercase;
   margin-bottom: 0.5rem;
   padding: 0 0.5rem;
+  align-items: center;
 }
 
 .set-table-row {
   display: grid;
-  grid-template-columns: 80px 1fr 1fr 60px;
-  gap: 0.75rem;
+  grid-template-columns: 60px 1fr 1fr 85px 44px;
+  gap: 0.6rem;
   align-items: center;
   margin-bottom: 0.5rem;
+  padding: 0.35rem 0.5rem;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  border: 1px solid transparent;
+  transition: all var(--transition-fast);
+}
+
+.set-table-row:hover {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.set-table-row.set-completed {
+  background: rgba(16, 185, 129, 0.12);
+  border-color: rgba(16, 185, 129, 0.35);
+}
+
+.set-table-row.set-completed .set-badge {
+  background: rgba(16, 185, 129, 0.25);
+  color: #34d399;
+  border: 1px solid rgba(16, 185, 129, 0.4);
+  font-weight: 700;
 }
 
 .set-badge {
@@ -302,6 +324,74 @@
   text-align: center;
   font-weight: 600;
   font-size: 0.85rem;
+  border: 1px solid var(--border-subtle);
+  transition: all var(--transition-fast);
+}
+
+/* Done Set Button */
+.btn-set-done {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3rem;
+  padding: 0.45rem 0.6rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-surface);
+  color: var(--text-dim);
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+  user-select: none;
+}
+
+.btn-set-done:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+  background: rgba(16, 185, 129, 0.12);
+}
+
+.btn-set-done.is-done {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #ffffff;
+  box-shadow: 0 0 10px rgba(16, 185, 129, 0.4);
+}
+
+.btn-set-done.is-done:hover {
+  background: #059669;
+  border-color: #059669;
+}
+
+/* Workout Rest Timer Floating Bar */
+.rest-timer-bar {
+  position: sticky;
+  bottom: -1rem;
+  margin: 1.25rem -1.5rem -1.5rem -1.5rem;
+  padding: 0.75rem 1.25rem;
+  background: rgba(15, 23, 42, 0.95);
+  backdrop-filter: blur(8px);
+  border-top: 1px solid var(--primary);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom-left-radius: var(--radius-lg);
+  border-bottom-right-radius: var(--radius-lg);
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.4);
+  animation: fadeIn 0.25s ease;
+  z-index: 20;
+}
+
+.rest-timer-display {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--primary);
+  font-family: monospace;
 }
 
 /* --------------------------------------------------------------------------

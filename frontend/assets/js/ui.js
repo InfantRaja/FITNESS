@@ -100,6 +100,9 @@ function closeModal(modalId) {
   const modal = document.getElementById(modalId);
   if (modal) {
     modal.classList.remove('active');
+    if (modalId === 'workoutModal' && typeof window.stopRestTimer === 'function') {
+      window.stopRestTimer();
+    }
   }
 }
 
