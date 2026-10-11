@@ -167,18 +167,67 @@ function handleSimulatedResponse(endpoint, options) {
     };
   }
 
-  // Simulated AI Chat
+  // Simulated AI Chat (Problem & Doubt Aware)
   if (endpoint === '/ai/chat') {
-    return {
-      success: true,
-      reply: `### 🤖 FitTrack AI Coach (Demo Mode)
+    let userMsg = '';
+    try {
+      if (options.body) {
+        const parsed = JSON.parse(options.body);
+        userMsg = (parsed.message || '').toLowerCase();
+      }
+    } catch (e) {}
 
+    let simulatedReply = '';
+
+    if (userMsg.includes('knee') || (userMsg.includes('squat') && (userMsg.includes('pain') || userMsg.includes('hurt')))) {
+      simulatedReply = `### 🩹 Knee Pain in Squats Fix
+1. **Push knees outward:** Avoid knees caving inward (valgus). Keep knees tracking directly over toes.
+2. **Hip hinge first:** Push hips slightly back before bending knees.
+3. **Box squats:** Try box squats to keep shins vertical until irritation subsides.`;
+    } else if (userMsg.includes('back') || userMsg.includes('deadlift')) {
+      simulatedReply = `### 🩹 Lower Back Pain Fix
+1. **Avoid spinal rounding:** Keep lats engaged ("squeeze oranges in armpits").
+2. **Keep barbell close:** Drag the bar up your shins; never let it drift forward.
+3. **Brace with deep belly breath:** Perform the Valsalva maneuver before lifting.`;
+    } else if (userMsg.includes('skinny fat') || userMsg.includes('cut or bulk')) {
+      simulatedReply = `### ⚖️ Skinny Fat Protocol: Body Recomposition
+1. **Maintenance calories or -200 deficit:** Do not starve or dirty bulk.
+2. **High protein:** 1.6–2.0g per kg of body weight.
+3. **Progressive resistance training:** 3–4 days/week of heavy compound lifts.
+4. **8,000–10,000 daily steps** instead of exhausting endurance cardio.`;
+    } else if (userMsg.includes('belly') || userMsg.includes('love handle')) {
+      simulatedReply = `### 🔥 Stubborn Belly Fat Guide
+1. **Spot reduction is impossible:** 1,000 crunches will not burn belly fat.
+2. **Sustained moderate deficit:** 300–400 kcal deficit over 8–12 weeks.
+3. **NEAT steps:** 8,000–10,000 daily steps.
+4. **Sleep:** 7–8 hours to keep belly-fat storing cortisol low.`;
+    } else if (userMsg.includes('creatine')) {
+      simulatedReply = `### 💊 Creatine Monohydrate Facts
+- **Hair loss:** Myth! No clinical studies prove creatine causes hair loss.
+- **Kidneys:** Safe for healthy individuals.
+- **Timing:** 3–5g daily anytime with water. No loading phase required.
+- **Drink 3.5–4L of water** daily.`;
+    } else if (userMsg.includes('rice') && (userMsg.includes('night') || userMsg.includes('dinner'))) {
+      simulatedReply = `### 🍚 White Rice at Night
+- **YES, you can eat rice at night!** Total daily calorie balance determines fat loss, not the clock.
+- Rice digests easily and improves tryptophan/melatonin for deeper sleep.
+- Keep to 1 medium katori and pair with dal and lean protein.`;
+    } else if (userMsg.includes('sore') || userMsg.includes('doms')) {
+      simulatedReply = `### 🩹 Sore Muscles (DOMS)
+- **You can exercise:** Train a different muscle group today (e.g. upper body if legs are sore).
+- **Active recovery:** Light 20-min walking increases blood flow and recovery.
+- Ensure 1.6g/kg protein and 8 hours sleep tonight.`;
+    } else {
+      simulatedReply = `### 🤖 FitTrack AI Coach
 Great question! For muscle recovery and steady energy:
 - **Pre-Workout:** Try 2 Idlis with light sambar or a banana 45 mins before training.
 - **Post-Workout:** Aim for 20–30g of protein (3 boiled eggs, 150g paneer, or chicken/fish with steamed rice).
-- **Hydration:** Sip water consistently to reach your 2,500ml daily target.
+- **Hydration:** Sip water consistently to reach your 2,500ml daily target.`;
+    }
 
-*(Tip: Start the backend server on port 5000 with your GEMINI_API_KEY for real-time generative responses!)*`,
+    return {
+      success: true,
+      reply: simulatedReply,
       timestamp: new Date().toISOString(),
     };
   }

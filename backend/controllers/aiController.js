@@ -1,6 +1,7 @@
 const ChatMessage = require('../models/ChatMessage');
 const FoodLog = require('../models/FoodLog');
 const Workout = require('../models/Workout');
+const { solveFitnessDoubt } = require('../utils/doubtSolver');
 
 /**
  * Handle AI Chat with Google Gemini API and Intelligent Local Knowledge Fallback
@@ -60,8 +61,8 @@ KEY INSTRUCTIONS & SPECIALIZATIONS:
 ${userContextStr}
 `;
 
-    // 3. Attempt Gemini API Call if GEMINI_API_KEY / AI_API_KEY is configured
-    const apiKey = process.env.GEMINI_API_KEY || process.env.AI_API_KEY;
+    // 3. Attempt Gemini API Call if GEMINI_API_KEY / AI_API_KEY or client key is configured
+    const apiKey = req.body.apiKey || req.headers['x-gemini-key'] || process.env.GEMINI_API_KEY || process.env.AI_API_KEY;
     let aiResponseText = null;
 
     if (apiKey && apiKey !== 'your_gemini_api_key_here') {
@@ -72,7 +73,7 @@ ${userContextStr}
       }
     }
 
-    // 4. Fallback Knowledge Engine (ensures zero downtime for students/testers)
+    // 4. Intelligent Fallback Knowledge & Doubt Solver Engine (ensures zero downtime)
     if (!aiResponseText) {
       aiResponseText = generateFallbackResponse(message, user, todayCalories, todayProtein);
     }
@@ -98,51 +99,70 @@ ${userContextStr}
 };
 
 /**
- * Direct call to Google Gemini REST API (gemini-1.5-flash)
+ * Direct call to Google Gemini REST API with multi-model resiliency
  */
 async function callGeminiApi(apiKey, systemInstruction, userMessage) {
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+  const models = ['gemini-1.5-flash', 'gemini-2.0-flash', 'gemini-1.5-pro'];
+  let lastError = null;
 
-  const payload = {
-    contents: [
-      {
-        role: 'user',
-        parts: [
-          { text: `${systemInstruction}\n\nUser Question: ${userMessage}` },
+  for (const model of models) {
+    try {
+      const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
+      const payload = {
+        contents: [
+          {
+            role: 'user',
+            parts: [
+              { text: `${systemInstruction}\n\nUser Question: ${userMessage}` },
+            ],
+          },
         ],
-      },
-    ],
-    generationConfig: {
-      temperature: 0.7,
-      maxOutputTokens: 800,
-    },
-  };
+        generationConfig: {
+          temperature: 0.7,
+          maxOutputTokens: 1000,
+        },
+      };
 
-  const response = await fetch(url, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload),
-  });
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
 
-  if (!response.ok) {
-    const errorBody = await response.text();
-    throw new Error(`Gemini API responded with status ${response.status}: ${errorBody}`);
+      if (!response.ok) {
+        const errorBody = await response.text();
+        throw new Error(`Gemini ${model} responded with status ${response.status}: ${errorBody}`);
+      }
+
+      const data = await response.json();
+      const candidate = data.candidates?.[0]?.content?.parts?.[0]?.text;
+
+      if (candidate) {
+        return candidate;
+      }
+    } catch (err) {
+      lastError = err;
+    }
   }
 
-  const data = await response.json();
-  const candidate = data.candidates?.[0]?.content?.parts?.[0]?.text;
-
-  if (!candidate) {
-    throw new Error('No candidate content returned by Gemini API');
-  }
-
-  return candidate;
+  throw lastError || new Error('No candidate content returned by Gemini API');
 }
 
 /**
- * Intelligent Local Knowledge Engine (Tamil Nadu Foods, Macros, Workouts, Recovery)
+ * Intelligent Local Knowledge & Fitness Doubt Solver Engine
  */
 function generateFallbackResponse(query, user, todayCalories, todayProtein) {
+  // Step 1: Deep Problem & Doubt Understanding (Knee/Back/Shoulder pain, Skinny Fat, Creatine, Belly Fat, DOMS, etc.)
+  const doubtSolution = solveFitnessDoubt(query, {
+    ...user,
+    todayCalories,
+    todayProtein,
+  });
+
+  if (doubtSolution) {
+    return doubtSolution;
+  }
+
   const q = query.toLowerCase();
 
   // 1. Post-workout nutrition
